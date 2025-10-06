@@ -1,0 +1,484 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Class Info D</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+        }
+        .bg-blur {
+            backdrop-filter: blur(10px);
+            -webkit-backdrop-filter: blur(10px);
+        }
+        .scroll-container {
+            -ms-overflow-style: none;  /* IE and Edge */
+            scrollbar-width: none;  /* Firefox */
+        }
+        .scroll-container::-webkit-scrollbar {
+            display: none; /* Chrome, Safari, and Opera */
+        }
+    </style>
+</head>
+<body class="bg-gray-900 text-white selection:bg-blue-500 selection:text-white" style="background-image: url('https://placehold.co/1920x1180/0a0a1a/e0e0e0?text=The+Star+Stream+System'); background-size: cover; background-position: center; background-attachment: fixed;">
+
+    <div id="app" class="min-h-screen flex items-center justify-center p-4">
+
+        <!-- Login Section -->
+        <div id="login-section" class="w-full max-w-md">
+            <div class="bg-gray-800 bg-opacity-70 bg-blur p-8 rounded-2xl shadow-2xl border border-gray-700">
+                <div class="text-center mb-8">
+                    <h1 class="text-4xl font-bold text-blue-300">Info Skenario: Kelas D</h1>
+                    <p class="text-gray-300 mt-2">Selamat datang, Konstelasi. Skenario utama dimulai.</p>
+                </div>
+                <form id="login-form">
+                    <div class="mb-4">
+                        <label for="username" class="block mb-2 text-sm font-medium text-gray-300">Nama Panggilan</label>
+                        <input type="text" id="username" class="w-full bg-gray-700 border border-gray-600 rounded-lg px-4 py-2 text-white focus:outline-none focus:ring-2 focus:ring-blue-500 transition duration-200" required>
+                    </div>
+                    <div class="mb-6">
+                        <label for="password" class="block mb-2 text-sm font-medium text-gray-300">Kata Sandi</label>
+                        <input type="password" id="password" class="w-full bg-gray-700 border border-gray-600 rounded-lg px-4 py-2 text-white focus:outline-none focus:ring-2 focus:ring-blue-500 transition duration-200" required>
+                    </div>
+                     <p id="login-error" class="text-red-400 text-sm mb-4 text-center hidden"></p>
+                    <button type="submit" class="w-full bg-blue-600 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded-lg transition duration-300 shadow-lg">Mulai Skenario</button>
+                </form>
+            </div>
+        </div>
+
+        <!-- User Dashboard -->
+        <div id="user-dashboard" class="hidden w-full max-w-7xl">
+            <!-- User Header -->
+            <div class="bg-gray-800 bg-opacity-70 bg-blur p-6 rounded-2xl shadow-2xl border border-gray-700 mb-6 flex justify-between items-center">
+                <div>
+                    <h2 class="text-3xl font-bold text-blue-300">Dasbor Konstelasi</h2>
+                    <p id="user-welcome" class="text-gray-300"></p>
+                </div>
+                <button id="user-logout-btn" class="bg-red-500 hover:bg-red-600 text-white font-bold py-2 px-4 rounded-lg transition duration-300">Keluar</button>
+            </div>
+
+            <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
+                <!-- User Notifications -->
+                <div class="lg:col-span-1">
+                    <div class="bg-gray-800 bg-opacity-70 bg-blur p-6 rounded-2xl shadow-2xl border border-gray-700 h-full">
+                        <h3 class="text-2xl font-bold mb-4 text-blue-300">Pesan Sistem</h3>
+                        <div id="user-notifications" class="space-y-3 max-h-[150px] overflow-y-auto scroll-container">
+                            <!-- Notifications will be injected here -->
+                        </div>
+                    </div>
+                </div>
+                 <!-- Picket Schedule -->
+                <div class="lg:col-span-1">
+                    <div class="bg-gray-800 bg-opacity-70 bg-blur p-6 rounded-2xl shadow-2xl border border-gray-700 h-full">
+                        <h3 class="text-2xl font-bold mb-4 text-blue-300">Sub-Skenario: Piket</h3>
+                        <div id="user-picket-schedule">
+                            <!-- User's picket schedule will be injected here -->
+                        </div>
+                    </div>
+                </div>
+                <!-- Full Class Schedule -->
+                <div class="lg:col-span-3">
+                    <div class="bg-gray-800 bg-opacity-70 bg-blur p-6 rounded-2xl shadow-2xl border border-gray-700">
+                        <h3 class="text-2xl font-bold mb-4 text-blue-300">Jadwal Skenario Utama</h3>
+                        <div id="user-class-schedule" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-4">
+                            <!-- Class schedule will be injected here -->
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Admin Dashboard -->
+        <div id="admin-dashboard" class="hidden w-full max-w-7xl">
+             <!-- Admin Header -->
+            <div class="bg-gray-800 bg-opacity-70 bg-blur p-6 rounded-2xl shadow-2xl border border-gray-700 mb-6 flex justify-between items-center">
+                <div>
+                    <h2 class="text-3xl font-bold text-blue-300">Dasbor Dokkaebi</h2>
+                    <p class="text-gray-300">Selamat datang, Dokkaebi!</p>
+                </div>
+                <button id="admin-logout-btn" class="bg-red-500 hover:bg-red-600 text-white font-bold py-2 px-4 rounded-lg transition duration-300">Keluar</button>
+            </div>
+            
+            <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
+                <!-- Manage Schedules -->
+                <div>
+                    <div class="bg-gray-800 bg-opacity-70 bg-blur p-6 rounded-2xl shadow-2xl border border-gray-700">
+                        <h3 class="text-2xl font-bold mb-4 text-blue-300">Kelola Skenario Utama</h3>
+                        <div id="admin-class-schedule-list" class="space-y-4 max-h-[300px] overflow-y-auto scroll-container pr-2">
+                           <!-- Admin schedule management UI -->
+                        </div>
+                         <div class="mt-4">
+                            <h4 class="font-semibold mb-2 text-lg">Tambah Skenario</h4>
+                            <form id="add-lesson-form" class="grid grid-cols-1 sm:grid-cols-3 gap-2">
+                                <select id="add-lesson-day" class="bg-gray-700 border border-gray-600 rounded-lg px-3 py-2 text-white">
+                                    <option value="Senin">Senin</option>
+                                    <option value="Selasa">Selasa</option>
+                                    <option value="Rabu">Rabu</option>
+                                    <option value="Kamis">Kamis</option>
+                                    <option value="Jumat">Jumat</option>
+                                </select>
+                                <input type="text" id="add-lesson-name" placeholder="Nama Skenario" class="bg-gray-700 border border-gray-600 rounded-lg px-3 py-2 text-white" required>
+                                <input type="text" id="add-lesson-time" placeholder="00.00-00.00" class="bg-gray-700 border border-gray-600 rounded-lg px-3 py-2 text-white" required>
+                                <button type="submit" class="sm:col-span-3 w-full bg-blue-600 hover:bg-blue-700 text-white font-bold py-2 rounded-lg transition duration-300 mt-2">Tambah</button>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+                
+                 <!-- Manage Pickets -->
+                <div>
+                    <div class="bg-gray-800 bg-opacity-70 bg-blur p-6 rounded-2xl shadow-2xl border border-gray-700">
+                        <h3 class="text-2xl font-bold mb-4 text-blue-300">Kelola Sub-Skenario</h3>
+                        <div id="admin-picket-schedule-list" class="space-y-4 max-h-[300px] overflow-y-auto scroll-container pr-2">
+                           <!-- Admin picket management UI -->
+                        </div>
+                        <div class="mt-4">
+                            <h4 class="font-semibold mb-2 text-lg">Tambah Partisipan</h4>
+                            <form id="add-picket-form" class="grid grid-cols-1 sm:grid-cols-2 gap-2">
+                                <select id="add-picket-day" class="bg-gray-700 border border-gray-600 rounded-lg px-3 py-2 text-white">
+                                    <option value="Senin">Senin</option>
+                                    <option value="Selasa">Selasa</option>
+                                    <option value="Rabu">Rabu</option>
+                                    <option value="Kamis">Kamis</option>
+                                    <option value="Jumat">Jumat</option>
+                                </select>
+                                <input type="text" id="add-picket-name" placeholder="Nama Inkarnasi" class="bg-gray-700 border border-gray-600 rounded-lg px-3 py-2 text-white" required>
+                                <button type="submit" class="sm:col-span-2 w-full bg-blue-600 hover:bg-blue-700 text-white font-bold py-2 rounded-lg transition duration-300 mt-2">Tambah</button>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Send Notifications -->
+                <div class="lg:col-span-2">
+                    <div class="bg-gray-800 bg-opacity-70 bg-blur p-6 rounded-2xl shadow-2xl border border-gray-700">
+                        <h3 class="text-2xl font-bold mb-4 text-blue-300">Kirim Pesan Sistem</h3>
+                        <form id="send-notification-form">
+                            <div class="mb-4">
+                                <label for="notification-target" class="block mb-2 text-sm font-medium text-gray-300">Kirim Ke</label>
+                                <select id="notification-target" class="w-full bg-gray-700 border border-gray-600 rounded-lg px-4 py-2 text-white">
+                                    <option value="all">Semua Pengguna</option>
+                                    <!-- User options will be populated here -->
+                                </select>
+                            </div>
+                            <div class="mb-4">
+                                <label for="notification-message" class="block mb-2 text-sm font-medium text-gray-300">Pesan</label>
+                                <textarea id="notification-message" rows="3" class="w-full bg-gray-700 border border-gray-600 rounded-lg px-4 py-2 text-white" required></textarea>
+                            </div>
+                            <button type="submit" class="w-full bg-blue-500 hover:bg-blue-600 text-white font-bold py-2 rounded-lg transition duration-300">Kirim</button>
+                        </form>
+                        <div class="mt-6">
+                            <h4 class="text-xl font-semibold mb-3">Riwayat Notifikasi</h4>
+                            <div id="notification-history" class="space-y-2 max-h-[150px] overflow-y-auto scroll-container pr-2">
+                                <!-- Notification history -->
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+    
+    <script>
+        // --- DATABASE (SIMULATED) ---
+        let users = {
+            'Nabil': 'user123', 'Malia': 'user123', 'Sultan': 'user123', 'Nasya': 'user123',
+            'Naya': 'user123', 'Hasna': 'user123', 'Kintan': 'user123', 'Nadia': 'user123',
+            'Farhan': 'user123', 'Chairil': 'user123', 'Syakilla': 'user123', 'Zahra': 'user123',
+            'Aldebaran': 'user123', 'Aulia': 'user123', 'Heni': 'user123', 'Luna': 'user123',
+            'Resti': 'user123', 'Denian': 'user123', 'Raka': 'user123', 'Syafira': 'user123',
+            'Fajri': 'user123', 'Ridhan': 'user123', 'Naisya': 'user123', 'Puspita': 'user123',
+            'Rizqy': 'user123', 'Maya': 'user123', 'Anzilah': 'user123', 'Ghaisan': 'user123',
+            'Rafa': 'user123', 'Putri': 'user123', 'Fadhillah': 'user123', 'Syifa': 'user123',
+            'Daiva': 'user123', 'Keisha': 'user123', 'Ayya': 'user123', 'Iyan': 'user123'
+        };
+        
+        let classSchedule = {
+            Senin: [
+                { subject: 'Bahasa Indonesia', time: '07.15-09.30' },
+                { subject: 'Informatika', time: '09.45-12.00' },
+                { subject: 'Bimbingan Konseling', time: '12.45-13.30' },
+                { subject: 'Geografi', time: '13.30-15.00' },
+            ],
+            Selasa: [
+                { subject: 'Bahasa Sunda', time: '06.30-08.00' },
+                { subject: 'PJOK', time: '08.00-09.30' },
+                { subject: 'Sejarah', time: '09.45-11.15' },
+                { subject: 'Bahasa Inggris', time: '12.45-15.00' },
+            ],
+            Rabu: [
+                { subject: 'PPKN', time: '06.30-08.00' },
+                { subject: 'Informatika', time: '08.00-09.30' },
+                { subject: 'Fisika', time: '09.45-12.00' },
+                { subject: 'Geografi', time: '12.45 - 15.00' },
+            ],
+            Kamis: [
+                { subject: 'Fisika', time: '06.30-08.00' },
+                { subject: 'Pendidikan Agama Islam', time: '08.00-09.30' },
+                { subject: 'Biologi', time: '09.45-12.00' },
+                { subject: 'Matematika', time: '12.45-15.00' },
+            ],
+            Jumat: [
+                { subject: 'PKWU', time: '07.10-08.30' },
+                { subject: 'Seni Budaya', time: '08.30-10.05' },
+                { subject: 'Biologi', time: '10.05-11.25' },
+            ]
+        };
+
+        let picketSchedule = {
+            Senin: ['Nabil', 'Malia', 'Sultan', 'Nasya', 'Naya', 'Hasna', 'Kintan', 'Nadia'],
+            Selasa: ['Farhan', 'Chairil', 'Syakilla', 'Zahra', 'Aldebaran', 'Aulia', 'Heni'],
+            Rabu: ['Luna', 'Resti', 'Denian', 'Raka', 'Syafira', 'Fajri', 'Ridhan'],
+            Kamis: ['Naisya', 'Puspita', 'Rizqy', 'Maya', 'Anzilah', 'Ghaisan', 'Rafa'],
+            Jumat: ['Putri', 'Fadhillah', 'Syifa', 'Daiva', 'Keisha', 'Ayya', 'Iyan']
+        };
+
+        let notifications = [
+            { id: 1, target: 'all', message: 'Selamat datang di aplikasi Class Info D!' },
+            { id: 2, target: 'Nabil', message: 'Jangan lupa tugas Bahasa Indonesia dikumpulkan besok.'}
+        ];
+        
+        let loggedInUser = null;
+
+        // --- DOM ELEMENTS ---
+        const loginSection = document.getElementById('login-section');
+        const userDashboard = document.getElementById('user-dashboard');
+        const adminDashboard = document.getElementById('admin-dashboard');
+
+        // --- RENDER FUNCTIONS ---
+        function renderAll() {
+            if (!loggedInUser) {
+                loginSection.classList.remove('hidden');
+                userDashboard.classList.add('hidden');
+                adminDashboard.classList.add('hidden');
+            } else if (loggedInUser === 'admin') {
+                loginSection.classList.add('hidden');
+                userDashboard.classList.add('hidden');
+                adminDashboard.classList.remove('hidden');
+                renderAdminDashboard();
+            } else {
+                loginSection.classList.add('hidden');
+                userDashboard.classList.remove('hidden');
+                adminDashboard.classList.add('hidden');
+                renderUserDashboard();
+            }
+        }
+
+        function renderUserDashboard() {
+            document.getElementById('user-welcome').textContent = `Selamat datang, Inkarnasi ${loggedInUser}!`;
+
+            // Render Class Schedule
+            const classContainer = document.getElementById('user-class-schedule');
+            classContainer.innerHTML = '';
+            for (const day in classSchedule) {
+                const dayCard = document.createElement('div');
+                dayCard.className = 'bg-gray-700 bg-opacity-50 p-4 rounded-lg';
+                let lessonsHTML = `<h4 class="font-bold text-lg mb-2 text-blue-200">${day}</h4><ul class="space-y-1 text-sm">`;
+                classSchedule[day].forEach(lesson => {
+                    lessonsHTML += `<li class="text-gray-200"><span class="font-semibold">${lesson.subject}</span><br><span class="text-gray-400">${lesson.time}</span></li>`;
+                });
+                lessonsHTML += '</ul>';
+                dayCard.innerHTML = lessonsHTML;
+                classContainer.appendChild(dayCard);
+            }
+
+            // Render Picket Schedule
+            const picketContainer = document.getElementById('user-picket-schedule');
+            picketContainer.innerHTML = '<p class="text-gray-400">Anda tidak memiliki jadwal piket.</p>';
+            for (const day in picketSchedule) {
+                if (picketSchedule[day].includes(loggedInUser)) {
+                    let picketHTML = `<h4 class="font-bold text-lg text-blue-200">${day}</h4><ul class="list-disc list-inside mt-2">`;
+                    picketSchedule[day].forEach(name => {
+                        picketHTML += `<li class="${name === loggedInUser ? 'font-bold text-white' : 'text-gray-300'}">${name}</li>`;
+                    });
+                    picketHTML += '</ul>';
+                    picketContainer.innerHTML = picketHTML;
+                    break;
+                }
+            }
+
+            // Render Notifications
+            const notifContainer = document.getElementById('user-notifications');
+            const userNotifs = notifications.filter(n => n.target === 'all' || n.target === loggedInUser);
+            if (userNotifs.length > 0) {
+                 notifContainer.innerHTML = '';
+                 userNotifs.reverse().forEach(n => { // Show newest first
+                    const notifEl = document.createElement('div');
+                    notifEl.className = 'bg-blue-900 bg-opacity-40 p-3 rounded-lg text-sm';
+                    notifEl.innerHTML = `<p class="text-gray-200">${n.message}</p><span class="text-xs text-gray-400">Untuk: ${n.target === 'all' ? 'Semua' : n.target}</span>`;
+                    notifContainer.appendChild(notifEl);
+                 });
+            } else {
+                 notifContainer.innerHTML = '<p class="text-gray-400 text-sm">Tidak ada pesan sistem.</p>';
+            }
+        }
+
+        function renderAdminDashboard() {
+            renderAdminClassSchedule();
+            renderAdminPicketSchedule();
+            renderNotificationManager();
+        }
+
+        function renderAdminClassSchedule() {
+            const container = document.getElementById('admin-class-schedule-list');
+            container.innerHTML = '';
+            for (const day in classSchedule) {
+                const dayGroup = document.createElement('div');
+                let lessonsHTML = `<h4 class="font-bold text-lg text-blue-200">${day}</h4>`;
+                classSchedule[day].forEach((lesson, index) => {
+                    lessonsHTML += `
+                        <div class="flex justify-between items-center bg-gray-700 p-2 rounded-md mt-1">
+                            <div>
+                                <p class="font-semibold">${lesson.subject}</p>
+                                <p class="text-sm text-gray-400">${lesson.time}</p>
+                            </div>
+                            <button onclick="deleteLesson('${day}', ${index})" class="text-red-400 hover:text-red-300 text-xs">Hapus</button>
+                        </div>
+                    `;
+                });
+                dayGroup.innerHTML = lessonsHTML;
+                container.appendChild(dayGroup);
+            }
+        }
+
+        function renderAdminPicketSchedule() {
+            const container = document.getElementById('admin-picket-schedule-list');
+            container.innerHTML = '';
+             for (const day in picketSchedule) {
+                const dayGroup = document.createElement('div');
+                let picketsHTML = `<h4 class="font-bold text-lg text-blue-200">${day}</h4>`;
+                picketSchedule[day].forEach((name, index) => {
+                    picketsHTML += `
+                        <div class="flex justify-between items-center bg-gray-700 p-2 rounded-md mt-1">
+                            <p class="font-semibold">${name}</p>
+                            <button onclick="deletePicket('${day}', ${index})" class="text-red-400 hover:text-red-300 text-xs">Hapus</button>
+                        </div>
+                    `;
+                });
+                dayGroup.innerHTML = picketsHTML;
+                container.appendChild(dayGroup);
+            }
+        }
+        
+        function renderNotificationManager() {
+            // Populate user dropdown
+            const targetSelect = document.getElementById('notification-target');
+            const currentVal = targetSelect.value;
+            targetSelect.innerHTML = '<option value="all">Semua Pengguna</option>';
+            Object.keys(users).forEach(username => {
+                targetSelect.innerHTML += `<option value="${username}">${username}</option>`;
+            });
+            targetSelect.value = currentVal;
+            
+            // Populate history
+            const historyContainer = document.getElementById('notification-history');
+            historyContainer.innerHTML = '';
+            notifications.slice().reverse().forEach(n => { // show newest first
+                const historyEl = document.createElement('div');
+                historyEl.className = 'bg-gray-700 p-2 rounded-md flex justify-between items-center';
+                historyEl.innerHTML = `
+                    <div>
+                        <p class="text-sm">${n.message}</p>
+                        <p class="text-xs text-gray-400">Target: ${n.target}</p>
+                    </div>
+                    <button onclick="deleteNotification(${n.id})" class="text-red-400 hover:text-red-300 text-xs">Hapus</button>
+                `;
+                historyContainer.appendChild(historyEl);
+            });
+        }
+        
+        // --- EVENT HANDLERS & LOGIC ---
+
+        document.getElementById('login-form').addEventListener('submit', function(e) {
+            e.preventDefault();
+            const username = document.getElementById('username').value;
+            const password = document.getElementById('password').value;
+            const errorEl = document.getElementById('login-error');
+
+            if (username === 'admin' && password === 'admin123') {
+                loggedInUser = 'admin';
+                errorEl.classList.add('hidden');
+                renderAll();
+            } else if (users[username] && users[username] === password) {
+                loggedInUser = username;
+                errorEl.classList.add('hidden');
+                renderAll();
+            } else {
+                errorEl.textContent = 'Username atau password salah.';
+                errorEl.classList.remove('hidden');
+            }
+        });
+        
+        function logout() {
+            loggedInUser = null;
+            document.getElementById('login-form').reset();
+            renderAll();
+        }
+
+        document.getElementById('user-logout-btn').addEventListener('click', logout);
+        document.getElementById('admin-logout-btn').addEventListener('click', logout);
+        
+        // Admin: Add Lesson
+        document.getElementById('add-lesson-form').addEventListener('submit', function(e) {
+            e.preventDefault();
+            const day = document.getElementById('add-lesson-day').value;
+            const name = document.getElementById('add-lesson-name').value;
+            const time = document.getElementById('add-lesson-time').value;
+            classSchedule[day].push({ subject: name, time: time });
+            renderAdminClassSchedule();
+            this.reset();
+        });
+
+        // Admin: Delete Lesson
+        window.deleteLesson = function(day, index) {
+            classSchedule[day].splice(index, 1);
+            renderAdminClassSchedule();
+        }
+        
+         // Admin: Add Picket
+        document.getElementById('add-picket-form').addEventListener('submit', function(e) {
+            e.preventDefault();
+            const day = document.getElementById('add-picket-day').value;
+            const name = document.getElementById('add-picket-name').value;
+            if (users[name] === undefined) { // Optionally add new user to user list
+                users[name] = 'user123'; // Default password
+            }
+            picketSchedule[day].push(name);
+            renderAdminPicketSchedule();
+            this.reset();
+        });
+
+        // Admin: Delete Picket
+        window.deletePicket = function(day, index) {
+            picketSchedule[day].splice(index, 1);
+            renderAdminPicketSchedule();
+        }
+
+        // Admin: Send Notification
+        document.getElementById('send-notification-form').addEventListener('submit', function(e){
+            e.preventDefault();
+            const target = document.getElementById('notification-target').value;
+            const message = document.getElementById('notification-message').value;
+            notifications.push({ id: Date.now(), target, message });
+            renderNotificationManager();
+            this.reset();
+        });
+        
+        // Admin: Delete Notification
+        window.deleteNotification = function(id) {
+            notifications = notifications.filter(n => n.id !== id);
+            renderNotificationManager();
+        }
+
+        // --- INITIALIZATION ---
+        renderAll();
+
+    </script>
+</body>
+</html>
