@@ -7,255 +7,266 @@
     <script src="https://cdn.tailwindcss.com"></script>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Cherry+Bomb+One&family=Open+Sans:wght@400;600;700&display=swap" rel="stylesheet">
     <style>
-        /* Mystic Night Color Palette */
+        /* Igari Color Palette & Theme */
         :root {
-            --cinder: #0D121C;
-            --yankees-blue: #1B2A41;
-            --cool-grey: #8E9AAF;
-            --light-grey: #A9B4C2;
-            --white: #FFFFFF;
+            --bg-light: #FDF9F3; /* Soft cream/off-white */
+            --bg-medium: #F3EFE9; /* Slightly darker cream */
+            --text-dark: #3F3F3F; /* Dark grey for text */
+            --accent-pink: #FFC0CB; /* Soft pink */
+            --accent-green: #A2D9CE; /* Soft mint green */
+            --accent-red: #E65A5A; /* Muted red */
+            --border-color: #E0DED7; /* Light subtle border */
         }
         body {
-            font-family: 'Inter', sans-serif;
-            background-color: var(--cinder);
+            font-family: 'Open Sans', sans-serif;
+            background-color: var(--bg-light);
+            color: var(--text-dark);
             transition: background-image 0.5s ease-in-out;
             background-size: cover;
             background-position: center;
             background-attachment: fixed;
         }
+        h1, h2, h3, h4 {
+            font-family: 'Cherry Bomb One', cursive; /* Playful, bold font for titles */
+            color: var(--accent-red);
+        }
         .bg-blur {
-            backdrop-filter: blur(10px);
-            -webkit-backdrop-filter: blur(10px);
+            backdrop-filter: blur(5px);
+            -webkit-backdrop-filter: blur(5px);
         }
         .scroll-container {
-            -ms-overflow-style: none;  /* IE and Edge */
-            scrollbar-width: none;  /* Firefox */
+            -ms-overflow-style: none;
+            scrollbar-width: none;
         }
         .scroll-container::-webkit-scrollbar {
-            display: none; /* Chrome, Safari, and Opera */
+            display: none;
         }
         .card {
-            background-color: rgba(13, 18, 28, 0.7); /* Cinder with opacity */
-            border: 1px solid rgba(142, 154, 175, 0.2); /* Cool Grey border */
+            background-color: rgba(255, 255, 255, 0.85); /* White with opacity */
+            border: 1px solid var(--border-color);
+            box-shadow: 0 4px 12px rgba(0,0,0,0.08);
+            backdrop-filter: blur(8px); /* More blur for a softer look */
+            -webkit-backdrop-filter: blur(8px);
         }
-        .btn-primary {
-            background-color: var(--yankees-blue);
-            color: var(--white);
-            border: 1px solid var(--cool-grey);
+        .btn-primary { /* User-focused / main actions */
+            background-color: var(--accent-pink);
+            color: var(--text-dark);
+            border: 1px solid var(--accent-pink);
         }
         .btn-primary:hover {
-            background-color: #2a4163; /* Darker Yankees Blue */
+            background-color: #FFB3C0; /* Slightly darker pink */
         }
-        .btn-secondary {
-             background-color: var(--cool-grey);
-             color: var(--cinder);
+        .btn-secondary { /* Admin-focused / secondary actions */
+             background-color: var(--accent-green);
+             color: var(--text-dark);
+             border: 1px solid var(--accent-green);
         }
         .btn-secondary:hover {
-            background-color: var(--light-grey);
+            background-color: #8FD1C2; /* Slightly darker green */
         }
         .input-field {
-            background-color: var(--yankees-blue);
-            border: 1px solid var(--cool-grey);
+            background-color: var(--bg-medium);
+            border: 1px solid var(--border-color);
+            color: var(--text-dark);
+        }
+        .input-field::placeholder {
+            color: #888;
         }
         .input-field:focus {
             outline: none;
-            box-shadow: 0 0 0 2px var(--light-grey);
+            box-shadow: 0 0 0 2px var(--accent-pink); /* Pink focus for user, maybe green for admin */
         }
+        /* Specific input field focus for admin */
+        #admin-login-section .input-field:focus,
+        #admin-dashboard .input-field:focus {
+             box-shadow: 0 0 0 2px var(--accent-green);
+        }
+
         .text-accent {
-            color: var(--cool-grey);
+            color: var(--accent-red); /* Muted red for primary accents */
         }
         .text-accent-light {
-             color: var(--light-grey);
+             color: var(--accent-pink); /* Pink for lighter accents */
         }
         .border-accent {
-            border-color: var(--cool-grey);
+            border-color: var(--accent-pink);
         }
          .border-accent-light {
-            border-color: var(--light-grey);
+            border-color: var(--accent-green);
+        }
+        .logout-btn {
+            background-color: var(--accent-red);
+            color: white;
+            border: 1px solid var(--accent-red);
+        }
+        .logout-btn:hover {
+            background-color: #D14B4B; /* Darker red */
         }
     </style>
 </head>
-<body class="text-white selection:bg-blue-500 selection:text-white">
+<body class="text-dark selection:bg-accent-pink selection:text-white">
 
     <div id="app" class="min-h-screen flex items-center justify-center p-4">
 
-        <!-- Initial Role Selection -->
-        <div id="initial-view" class="w-full max-w-md">
+        <!-- Initial Role Selection --><div id="initial-view" class="w-full max-w-md">
             <div class="card bg-blur p-8 rounded-2xl shadow-2xl text-center">
-                 <img src="https://placehold.co/120x120/0D121C/8E9AAF?text=Dokkaebi" alt="Dokkaebi Chibi" class="mx-auto mb-4 w-24 h-24 rounded-full border-2 border-accent">
-                <h1 class="text-4xl font-bold text-accent-light">Pilih Peranmu</h1>
-                <p class="text-accent mt-2 mb-8">「 Skenario ini membutuhkan partisipasimu, Inkarnasi. 」</p>
+                 <img src="https://placehold.co/120x120/FDF9F3/FFC0CB?text=Chibi" alt="Cute Chibi Character" class="mx-auto mb-4 w-24 h-24 rounded-full border-2 border-accent-pink">
+                <h1 class="text-4xl font-bold text-accent-red">Halo, selamat datang!</h1>
+                <p class="text-text-dark mt-2 mb-8">Pilih jalanmu hari ini~</p>
                 <div class="space-y-4">
-                    <button onclick="showLoginView('user')" class="w-full btn-primary font-bold py-3 px-4 rounded-lg transition duration-300 shadow-lg text-lg">Masuk sebagai Pengguna</button>
-                    <button onclick="showLoginView('admin')" class="w-full btn-secondary font-bold py-3 px-4 rounded-lg transition duration-300 shadow-lg text-lg">Masuk sebagai Admin</button>
+                    <button onclick="showLoginView('user')" class="w-full btn-primary font-bold py-3 px-4 rounded-lg transition duration-300 shadow-lg text-lg">Masuk sebagai Murid</button>
+                    <button onclick="showLoginView('admin')" class="w-full btn-secondary font-bold py-3 px-4 rounded-lg transition duration-300 shadow-lg text-lg">Masuk sebagai Pengelola</button>
                 </div>
             </div>
         </div>
 
-        <!-- User Login Section -->
-        <div id="user-login-section" class="hidden w-full max-w-md">
+        <!-- User Login Section --><div id="user-login-section" class="hidden w-full max-w-md">
             <div class="card bg-blur p-8 rounded-2xl shadow-2xl">
                 <div class="text-center mb-8">
-                     <img src="https://placehold.co/100x100/0D121C/8E9AAF?text=Konstelasi" alt="Konstelasi" class="mx-auto mb-4 w-20 h-20 rounded-full border-2 border-accent">
-                    <h1 class="text-4xl font-bold text-accent">Portal Pengguna</h1>
-                    <p class="text-gray-400 mt-2">Selamat datang, Konstelasi.</p>
+                     <img src="https://placehold.co/100x100/FDF9F3/A2D9CE?text=Bunga" alt="Cute Flower Icon" class="mx-auto mb-4 w-20 h-20 rounded-full border-2 border-accent-green">
+                    <h1 class="text-4xl font-bold text-accent-red">Selamat Datang!</h1>
+                    <p class="text-text-dark mt-2">Masuk untuk melihat jadwalmu.</p>
                 </div>
                 <form id="user-login-form">
                     <div class="mb-4">
-                        <label for="user-username" class="block mb-2 text-sm font-medium text-accent">Nama Panggilan</label>
-                        <input type="text" id="user-username" class="w-full input-field rounded-lg px-4 py-2 text-white transition duration-200" required>
+                        <label for="user-username" class="block mb-2 text-sm font-medium text-text-dark">Nama Panggilan</label>
+                        <input type="text" id="user-username" class="w-full input-field rounded-lg px-4 py-2 transition duration-200" required>
                     </div>
                     <div class="mb-6">
-                        <label for="user-password" class="block mb-2 text-sm font-medium text-accent">Kata Sandi</label>
-                        <input type="password" id="user-password" class="w-full input-field rounded-lg px-4 py-2 text-white transition duration-200" required>
+                        <label for="user-password" class="block mb-2 text-sm font-medium text-text-dark">Kata Sandi</label>
+                        <input type="password" id="user-password" class="w-full input-field rounded-lg px-4 py-2 transition duration-200" required>
                     </div>
-                     <p id="user-login-error" class="text-red-400 text-sm mb-4 text-center hidden"></p>
+                     <p id="user-login-error" class="text-red-500 text-sm mb-4 text-center hidden"></p>
                     <button type="submit" class="w-full btn-primary font-bold py-2 px-4 rounded-lg transition duration-300 shadow-lg">Masuk</button>
-                    <button type="button" onclick="showInitialView()" class="w-full text-center text-gray-400 hover:text-white mt-4 text-sm">Kembali</button>
+                    <button type="button" onclick="showInitialView()" class="w-full text-center text-text-dark hover:text-accent-red mt-4 text-sm">Kembali</button>
                 </form>
             </div>
         </div>
         
-        <!-- Admin Login Section -->
-        <div id="admin-login-section" class="hidden w-full max-w-md">
+        <!-- Admin Login Section --><div id="admin-login-section" class="hidden w-full max-w-md">
             <div class="card bg-blur p-8 rounded-2xl shadow-2xl">
                 <div class="text-center mb-8">
-                    <img src="https://placehold.co/100x100/0D121C/A9B4C2?text=Bintang" alt="Rasi Bintang" class="mx-auto mb-4 w-20 h-20 rounded-full border-2 border-accent-light">
-                    <h1 class="text-4xl font-bold text-accent-light">Panel Admin</h1>
-                    <p class="text-gray-400 mt-2">Kelola probabilitas skenario.</p>
+                    <img src="https://placehold.co/100x100/FDF9F3/E65A5A?text=Apel" alt="Cute Apple Icon" class="mx-auto mb-4 w-20 h-20 rounded-full border-2 border-accent-red">
+                    <h1 class="text-4xl font-bold text-accent-red">Area Pengelola</h1>
+                    <p class="text-text-dark mt-2">Atur jadwal dan notifikasi.</p>
                 </div>
                 <form id="admin-login-form">
                     <div class="mb-4">
-                        <label for="admin-username" class="block mb-2 text-sm font-medium text-accent-light">Nama Panggilan</label>
-                        <input type="text" id="admin-username" value="admin" class="w-full input-field rounded-lg px-4 py-2 text-white transition duration-200" required>
+                        <label for="admin-username" class="block mb-2 text-sm font-medium text-text-dark">Nama Pengelola</label>
+                        <input type="text" id="admin-username" value="admin" class="w-full input-field rounded-lg px-4 py-2 transition duration-200" required>
                     </div>
                     <div class="mb-6">
-                        <label for="admin-password" class="block mb-2 text-sm font-medium text-accent-light">Kata Sandi</label>
-                        <input type="password" id="admin-password" class="w-full input-field rounded-lg px-4 py-2 text-white transition duration-200" required>
+                        <label for="admin-password" class="block mb-2 text-sm font-medium text-text-dark">Kata Sandi</label>
+                        <input type="password" id="admin-password" class="w-full input-field rounded-lg px-4 py-2 transition duration-200" required>
                     </div>
-                     <p id="admin-login-error" class="text-red-400 text-sm mb-4 text-center hidden"></p>
+                     <p id="admin-login-error" class="text-red-500 text-sm mb-4 text-center hidden"></p>
                     <button type="submit" class="w-full btn-secondary font-bold py-2 px-4 rounded-lg transition duration-300 shadow-lg">Masuk</button>
-                    <button type="button" onclick="showInitialView()" class="w-full text-center text-gray-400 hover:text-white mt-4 text-sm">Kembali</button>
+                    <button type="button" onclick="showInitialView()" class="w-full text-center text-text-dark hover:text-accent-red mt-4 text-sm">Kembali</button>
                 </form>
             </div>
         </div>
 
-        <!-- User Dashboard -->
-        <div id="user-dashboard" class="hidden w-full max-w-7xl">
-            <!-- User Header -->
-            <div class="card bg-blur p-6 rounded-2xl shadow-2xl mb-6 flex justify-between items-center">
+        <!-- User Dashboard --><div id="user-dashboard" class="hidden w-full max-w-7xl">
+            <!-- User Header --><div class="card bg-blur p-6 rounded-2xl shadow-2xl mb-6 flex justify-between items-center">
                 <div>
-                    <h2 class="text-3xl font-bold text-accent">Dasbor Konstelasi</h2>
-                    <p id="user-welcome" class="text-gray-300"></p>
+                    <h2 class="text-3xl font-bold text-accent-red">Dasbor Murid</h2>
+                    <p id="user-welcome" class="text-text-dark"></p>
                 </div>
-                <button id="user-logout-btn" class="bg-red-500 hover:bg-red-600 text-white font-bold py-2 px-4 rounded-lg transition duration-300">Keluar</button>
+                <button id="user-logout-btn" class="logout-btn font-bold py-2 px-4 rounded-lg transition duration-300">Keluar</button>
             </div>
 
             <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
-                <!-- User Notifications -->
-                <div class="lg:col-span-1">
+                <!-- User Notifications --><div class="lg:col-span-1">
                     <div class="card bg-blur p-6 rounded-2xl shadow-2xl h-full">
-                        <h3 class="text-2xl font-bold mb-4 text-accent">Pesan Sistem</h3>
+                        <h3 class="text-2xl font-bold mb-4 text-accent-red">Pengumuman Terbaru</h3>
                         <div id="user-notifications" class="space-y-3 max-h-[150px] overflow-y-auto scroll-container">
-                            <!-- Notifications will be injected here -->
-                        </div>
+                            <!-- Notifications will be injected here --></div>
                     </div>
                 </div>
-                 <!-- Picket Schedule -->
-                <div class="lg:col-span-1">
+                 <!-- Picket Schedule --><div class="lg:col-span-1">
                     <div class="card bg-blur p-6 rounded-2xl shadow-2xl h-full">
-                        <h3 class="text-2xl font-bold mb-4 text-accent">Sub-Skenario: Piket</h3>
+                        <h3 class="text-2xl font-bold mb-4 text-accent-red">Jadwal Piketku</h3>
                         <div id="user-picket-schedule">
-                            <!-- User's picket schedule will be injected here -->
-                        </div>
+                            <!-- User's picket schedule will be injected here --></div>
                     </div>
                 </div>
-                <!-- Full Class Schedule -->
-                <div class="lg:col-span-3">
+                <!-- Full Class Schedule --><div class="lg:col-span-3">
                     <div class="card bg-blur p-6 rounded-2xl shadow-2xl">
-                        <h3 class="text-2xl font-bold mb-4 text-accent">Jadwal Skenario Utama</h3>
+                        <h3 class="text-2xl font-bold mb-4 text-accent-red">Jadwal Pelajaran Lengkap</h3>
                         <div id="user-class-schedule" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-4">
-                            <!-- Class schedule will be injected here -->
-                        </div>
+                            <!-- Class schedule will be injected here --></div>
                     </div>
                 </div>
             </div>
         </div>
 
-        <!-- Admin Dashboard -->
-        <div id="admin-dashboard" class="hidden w-full max-w-7xl">
-             <!-- Admin Header -->
-            <div class="card bg-blur p-6 rounded-2xl shadow-2xl mb-6 flex justify-between items-center">
+        <!-- Admin Dashboard --><div id="admin-dashboard" class="hidden w-full max-w-7xl">
+             <!-- Admin Header --><div class="card bg-blur p-6 rounded-2xl shadow-2xl mb-6 flex justify-between items-center">
                 <div>
-                    <h2 class="text-3xl font-bold text-accent-light">Dasbor Dokkaebi</h2>
-                    <p class="text-gray-300">Selamat datang, Dokkaebi!</p>
+                    <h2 class="text-3xl font-bold text-accent-red">Dasbor Pengelola</h2>
+                    <p class="text-text-dark">Selamat datang, Pengelola!</p>
                 </div>
-                <button id="admin-logout-btn" class="bg-red-500 hover:bg-red-600 text-white font-bold py-2 px-4 rounded-lg transition duration-300">Keluar</button>
+                <button id="admin-logout-btn" class="logout-btn font-bold py-2 px-4 rounded-lg transition duration-300">Keluar</button>
             </div>
             
             <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
-                <!-- Manage Schedules -->
-                <div>
+                <!-- Manage Schedules --><div>
                     <div class="card bg-blur p-6 rounded-2xl shadow-2xl">
-                        <h3 class="text-2xl font-bold mb-4 text-accent-light">Kelola Skenario Utama</h3>
+                        <h3 class="text-2xl font-bold mb-4 text-accent-red">Kelola Jadwal Pelajaran</h3>
                         <div id="admin-class-schedule-list" class="space-y-4 max-h-[300px] overflow-y-auto scroll-container pr-2">
-                           <!-- Admin schedule management UI -->
-                        </div>
+                           <!-- Admin schedule management UI --></div>
                          <div class="mt-4">
-                            <h4 class="font-semibold mb-2 text-lg">Tambah Skenario</h4>
+                            <h4 class="font-semibold mb-2 text-lg text-text-dark">Tambah Pelajaran Baru</h4>
                             <form id="add-lesson-form" class="grid grid-cols-1 sm:grid-cols-3 gap-2">
-                                <select id="add-lesson-day" class="input-field rounded-lg px-3 py-2 text-white">
+                                <select id="add-lesson-day" class="input-field rounded-lg px-3 py-2 text-text-dark">
                                     <option>Senin</option><option>Selasa</option><option>Rabu</option><option>Kamis</option><option>Jumat</option>
                                 </select>
-                                <input type="text" id="add-lesson-name" placeholder="Nama Skenario" class="input-field rounded-lg px-3 py-2 text-white" required>
-                                <input type="text" id="add-lesson-time" placeholder="00.00-00.00" class="input-field rounded-lg px-3 py-2 text-white" required>
+                                <input type="text" id="add-lesson-name" placeholder="Nama Pelajaran" class="input-field rounded-lg px-3 py-2 text-text-dark" required>
+                                <input type="text" id="add-lesson-time" placeholder="00.00-00.00" class="input-field rounded-lg px-3 py-2 text-text-dark" required>
                                 <button type="submit" class="sm:col-span-3 w-full btn-secondary font-bold py-2 rounded-lg transition duration-300 mt-2">Tambah</button>
                             </form>
                         </div>
                     </div>
                 </div>
                 
-                 <!-- Manage Pickets -->
-                <div>
+                 <!-- Manage Pickets --><div>
                     <div class="card bg-blur p-6 rounded-2xl shadow-2xl">
-                        <h3 class="text-2xl font-bold mb-4 text-accent-light">Kelola Sub-Skenario</h3>
+                        <h3 class="text-2xl font-bold mb-4 text-accent-red">Kelola Jadwal Piket</h3>
                         <div id="admin-picket-schedule-list" class="space-y-4 max-h-[300px] overflow-y-auto scroll-container pr-2">
-                           <!-- Admin picket management UI -->
-                        </div>
+                           <!-- Admin picket management UI --></div>
                         <div class="mt-4">
-                            <h4 class="font-semibold mb-2 text-lg">Tambah Partisipan</h4>
+                            <h4 class="font-semibold mb-2 text-lg text-text-dark">Tambah Anggota Piket</h4>
                             <form id="add-picket-form" class="grid grid-cols-1 sm:grid-cols-2 gap-2">
-                                <select id="add-picket-day" class="input-field rounded-lg px-3 py-2 text-white">
+                                <select id="add-picket-day" class="input-field rounded-lg px-3 py-2 text-text-dark">
                                     <option>Senin</option><option>Selasa</option><option>Rabu</option><option>Kamis</option><option>Jumat</option>
                                 </select>
-                                <input type="text" id="add-picket-name" placeholder="Nama Inkarnasi" class="input-field rounded-lg px-3 py-2 text-white" required>
+                                <input type="text" id="add-picket-name" placeholder="Nama Murid" class="input-field rounded-lg px-3 py-2 text-text-dark" required>
                                 <button type="submit" class="sm:col-span-2 w-full btn-secondary font-bold py-2 rounded-lg transition duration-300 mt-2">Tambah</button>
                             </form>
                         </div>
                     </div>
                 </div>
 
-                <!-- Send Notifications -->
-                <div class="lg:col-span-2">
+                <!-- Send Notifications --><div class="lg:col-span-2">
                     <div class="card bg-blur p-6 rounded-2xl shadow-2xl">
-                        <h3 class="text-2xl font-bold mb-4 text-accent-light">Kirim Pesan Sistem</h3>
+                        <h3 class="text-2xl font-bold mb-4 text-accent-red">Kirim Pengumuman</h3>
                         <form id="send-notification-form">
                             <div class="mb-4">
-                                <label for="notification-target" class="block mb-2 text-sm font-medium text-gray-300">Kirim Ke</label>
-                                <select id="notification-target" class="w-full input-field rounded-lg px-4 py-2 text-white">
-                                    <option value="all">Semua Pengguna</option>
+                                <label for="notification-target" class="block mb-2 text-sm font-medium text-text-dark">Kirim Ke</label>
+                                <select id="notification-target" class="w-full input-field rounded-lg px-4 py-2 text-text-dark">
+                                    <option value="all">Semua Murid</option>
                                 </select>
                             </div>
                             <div class="mb-4">
-                                <label for="notification-message" class="block mb-2 text-sm font-medium text-gray-300">Pesan</label>
-                                <textarea id="notification-message" rows="3" class="w-full input-field rounded-lg px-4 py-2 text-white" required></textarea>
+                                <label for="notification-message" class="block mb-2 text-sm font-medium text-text-dark">Pesan</label>
+                                <textarea id="notification-message" rows="3" class="w-full input-field rounded-lg px-4 py-2 text-text-dark" required></textarea>
                             </div>
                             <button type="submit" class="w-full btn-primary font-bold py-2 rounded-lg transition duration-300">Kirim</button>
                         </form>
                         <div class="mt-6">
-                            <h4 class="text-xl font-semibold mb-3">Riwayat Notifikasi</h4>
+                            <h4 class="text-xl font-semibold mb-3 text-text-dark">Riwayat Pengumuman</h4>
                             <div id="notification-history" class="space-y-2 max-h-[150px] overflow-y-auto scroll-container pr-2">
                             </div>
                         </div>
@@ -267,12 +278,13 @@
     </div>
     
     <script>
-        const loginBgUrl = "url('https://images.unsplash.com/photo-1534796636912-3b95b3ab5986?q=80&w=2071&auto=format&fit=crop')";
-        const dashboardBgUrl = "url('https://images.unsplash.com/photo-1462331940025-496dfbfc7564?q=80&w=1841&auto=format&fit=crop')";
+        // Background images matching the new theme
+        const loginBgUrl = "url('https://images.unsplash.com/photo-1588624424912-37651c6b51cf?q=80&w=2070&auto=format&fit=crop')"; // Strawberry background
+        const dashboardBgUrl = "url('https://images.unsplash.com/photo-1565005446401-49352c2f6023?q=80&w=1974&auto=format&fit=crop')"; // Cheesecake background
 
         // --- DATABASE (SIMULATED) ---
         let users = {
-            'Nabil': 'user123', 'Malia': 'user123', 'Sultan': 'user122', 'Nasya': 'user123',
+            'Nabil': 'user123', 'Malia': 'user123', 'Sultan': 'user123', 'Nasya': 'user123',
             'Naya': 'user123', 'Hasna': 'user123', 'Kintan': 'user123', 'Nadia': 'user123',
             'Farhan': 'user123', 'Chairil': 'user123', 'Syakilla': 'user123', 'Zahra': 'user123',
             'Aldebaran': 'user123', 'Aulia': 'user123', 'Heni': 'user123', 'Luna': 'user123',
@@ -294,7 +306,7 @@
                 { subject: 'Bahasa Sunda', time: '06.30-08.00' },
                 { subject: 'PJOK', time: '08.00-09.30' },
                 { subject: 'Sejarah', time: '09.45-11.15' },
-                { subject: 'Bimbingan Konseling', time: '11.15-12.00' },
+                { subject: 'Bimbingan Konseling', time: '11.15-12.00' }, // Added BC here
                 { subject: 'Bahasa Inggris', time: '12.45-15.00' },
             ],
             Rabu: [
@@ -361,6 +373,8 @@
         }
 
         window.showLoginView = function(type) {
+            // Keep the same login background for both user/admin login screens
+            setBackground('login'); 
             if (type === 'user') {
                 showView(userLoginSection);
             } else {
@@ -369,17 +383,17 @@
         }
 
         function renderUserDashboard() {
-            document.getElementById('user-welcome').textContent = `Selamat datang, Inkarnasi ${loggedInUser}!`;
+            document.getElementById('user-welcome').textContent = `Hai ${loggedInUser}, semangat belajarnya!`;
 
             // Render Class Schedule
             const classContainer = document.getElementById('user-class-schedule');
             classContainer.innerHTML = '';
             for (const day in classSchedule) {
                 const dayCard = document.createElement('div');
-                dayCard.className = 'bg-yankees-blue bg-opacity-50 p-4 rounded-lg';
-                let lessonsHTML = `<h4 class="font-bold text-lg mb-2 text-cool-grey">${day}</h4><ul class="space-y-1 text-sm">`;
+                dayCard.className = 'bg-bg-medium bg-opacity-80 p-4 rounded-lg shadow-md';
+                let lessonsHTML = `<h4 class="font-bold text-lg mb-2 text-accent-red">${day}</h4><ul class="space-y-1 text-sm">`;
                 classSchedule[day].forEach(lesson => {
-                    lessonsHTML += `<li class="text-gray-200"><span class="font-semibold">${lesson.subject}</span><br><span class="text-gray-400">${lesson.time}</span></li>`;
+                    lessonsHTML += `<li class="text-text-dark"><span class="font-semibold">${lesson.subject}</span><br><span class="text-gray-600">${lesson.time}</span></li>`;
                 });
                 lessonsHTML += '</ul>';
                 dayCard.innerHTML = lessonsHTML;
@@ -388,12 +402,12 @@
 
             // Render Picket Schedule
             const picketContainer = document.getElementById('user-picket-schedule');
-            picketContainer.innerHTML = '<p class="text-gray-400">Anda tidak memiliki jadwal piket.</p>';
+            picketContainer.innerHTML = '<p class="text-gray-600">Kamu tidak punya jadwal piket hari ini!</p>';
             for (const day in picketSchedule) {
                 if (picketSchedule[day].includes(loggedInUser)) {
-                    let picketHTML = `<h4 class="font-bold text-lg text-cool-grey">${day}</h4><ul class="list-disc list-inside mt-2">`;
+                    let picketHTML = `<h4 class="font-bold text-lg text-accent-red">${day}</h4><ul class="list-disc list-inside mt-2">`;
                     picketSchedule[day].forEach(name => {
-                        picketHTML += `<li class="${name === loggedInUser ? 'font-bold text-white' : 'text-gray-300'}">${name}</li>`;
+                        picketHTML += `<li class="${name === loggedInUser ? 'font-bold text-accent-red' : 'text-text-dark'}">${name}</li>`;
                     });
                     picketHTML += '</ul>';
                     picketContainer.innerHTML = picketHTML;
@@ -408,12 +422,12 @@
                  notifContainer.innerHTML = '';
                  userNotifs.reverse().forEach(n => { 
                     const notifEl = document.createElement('div');
-                    notifEl.className = 'bg-yankees-blue bg-opacity-40 p-3 rounded-lg text-sm';
-                    notifEl.innerHTML = `<p class="text-gray-200">${n.message}</p><span class="text-xs text-gray-400">Untuk: ${n.target === 'all' ? 'Semua' : n.target}</span>`;
+                    notifEl.className = 'bg-accent-pink bg-opacity-40 p-3 rounded-lg text-sm text-text-dark';
+                    notifEl.innerHTML = `<p>${n.message}</p><span class="text-xs text-gray-700">Untuk: ${n.target === 'all' ? 'Semua' : n.target}</span>`;
                     notifContainer.appendChild(notifEl);
                  });
             } else {
-                 notifContainer.innerHTML = '<p class="text-gray-400 text-sm">Tidak ada pesan sistem.</p>';
+                 notifContainer.innerHTML = '<p class="text-gray-600 text-sm">Tidak ada pengumuman baru.</p>';
             }
         }
 
@@ -428,15 +442,15 @@
             container.innerHTML = '';
             for (const day in classSchedule) {
                 const dayGroup = document.createElement('div');
-                let lessonsHTML = `<h4 class="font-bold text-lg text-light-grey">${day}</h4>`;
+                let lessonsHTML = `<h4 class="font-bold text-lg text-accent-red">${day}</h4>`;
                 classSchedule[day].forEach((lesson, index) => {
                     lessonsHTML += `
-                        <div class="flex justify-between items-center bg-yankees-blue p-2 rounded-md mt-1">
+                        <div class="flex justify-between items-center bg-bg-medium p-2 rounded-md mt-1 shadow-sm">
                             <div>
-                                <p class="font-semibold">${lesson.subject}</p>
-                                <p class="text-sm text-gray-400">${lesson.time}</p>
+                                <p class="font-semibold text-text-dark">${lesson.subject}</p>
+                                <p class="text-sm text-gray-600">${lesson.time}</p>
                             </div>
-                            <button onclick="deleteLesson('${day}', ${index})" class="text-red-400 hover:text-red-300 text-xs">Hapus</button>
+                            <button onclick="deleteLesson('${day}', ${index})" class="text-red-500 hover:text-red-400 text-xs">Hapus</button>
                         </div>
                     `;
                 });
@@ -450,12 +464,12 @@
             container.innerHTML = '';
              for (const day in picketSchedule) {
                 const dayGroup = document.createElement('div');
-                let picketsHTML = `<h4 class="font-bold text-lg text-light-grey">${day}</h4>`;
+                let picketsHTML = `<h4 class="font-bold text-lg text-accent-red">${day}</h4>`;
                 picketSchedule[day].forEach((name, index) => {
                     picketsHTML += `
-                        <div class="flex justify-between items-center bg-yankees-blue p-2 rounded-md mt-1">
-                            <p class="font-semibold">${name}</p>
-                            <button onclick="deletePicket('${day}', ${index})" class="text-red-400 hover:text-red-300 text-xs">Hapus</button>
+                        <div class="flex justify-between items-center bg-bg-medium p-2 rounded-md mt-1 shadow-sm">
+                            <p class="font-semibold text-text-dark">${name}</p>
+                            <button onclick="deletePicket('${day}', ${index})" class="text-red-500 hover:text-red-400 text-xs">Hapus</button>
                         </div>
                     `;
                 });
@@ -467,7 +481,7 @@
         function renderNotificationManager() {
             const targetSelect = document.getElementById('notification-target');
             const currentVal = targetSelect.value;
-            targetSelect.innerHTML = '<option value="all">Semua Pengguna</option>';
+            targetSelect.innerHTML = '<option value="all">Semua Murid</option>';
             Object.keys(users).forEach(username => {
                 targetSelect.innerHTML += `<option value="${username}">${username}</option>`;
             });
@@ -477,13 +491,13 @@
             historyContainer.innerHTML = '';
             notifications.slice().reverse().forEach(n => {
                 const historyEl = document.createElement('div');
-                historyEl.className = 'bg-yankees-blue p-2 rounded-md flex justify-between items-center';
+                historyEl.className = 'bg-bg-medium p-2 rounded-md flex justify-between items-center shadow-sm';
                 historyEl.innerHTML = `
                     <div>
-                        <p class="text-sm">${n.message}</p>
-                        <p class="text-xs text-gray-400">Target: ${n.target}</p>
+                        <p class="text-sm text-text-dark">${n.message}</p>
+                        <p class="text-xs text-gray-600">Target: ${n.target}</p>
                     </div>
-                    <button onclick="deleteNotification(${n.id})" class="text-red-400 hover:text-red-300 text-xs">Hapus</button>
+                    <button onclick="deleteNotification(${n.id})" class="text-red-500 hover:text-red-400 text-xs">Hapus</button>
                 `;
                 historyContainer.appendChild(historyEl);
             });
@@ -522,7 +536,7 @@
                 showView(adminDashboard);
                 renderAdminDashboard();
             } else {
-                errorEl.textContent = 'Nama Panggilan atau Kata Sandi salah.';
+                errorEl.textContent = 'Nama Pengelola atau Kata Sandi salah.';
                 errorEl.classList.remove('hidden');
             }
         });
@@ -591,5 +605,4 @@
     </script>
 </body>
 </html>
-
 
