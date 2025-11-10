@@ -98,11 +98,19 @@
         }
         .logout-btn {
             background-color: var(--accent-red);
-            color: white;
+            color: var(--white);
             border: 1px solid var(--accent-red);
         }
         .logout-btn:hover {
             background-color: #D14B4B; /* Darker red */
+        }
+
+        /* Specific backgrounds for login/dashboard */
+        .login-bg {
+            background-image: url('https://images.unsplash.com/photo-1587393855524-087f83d95bc9?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w1MDcxMzJ8MHwxfHNlYXJjaHwxfHxzdHJhd2JlcnJ5JTIwYmFja2dyb3VuZHxlbnwwfHx8fDE3MDc5NTExNTJ8MA&ixlib=rb-4.0.3&q=80&w=1080'); /* Strawberry background */
+        }
+        .dashboard-bg {
+            background-image: url('https://images.unsplash.com/photo-1563805042-76E04845e009?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w1MDcxMzJ8MHwxfHNlYXJjaHwxfHxjaGVlc2VjYWtlJTIwYmFja2dyb3VuZHxlbnwwfHx8fDE3MDc5NTExNzd8MA&ixlib=rb-4.0.3&q=80&w=1080'); /* Cheesecake background */
         }
     </style>
 </head>
@@ -110,11 +118,15 @@
 
     <div id="app" class="min-h-screen flex items-center justify-center p-4">
 
-        <!-- Initial Role Selection --><div id="initial-view" class="w-full max-w-md">
+        <!-- Tampilan Awal: Pilih Peran -->
+        <div id="initial-view" class="w-full max-w-md">
             <div class="card bg-blur p-8 rounded-2xl shadow-2xl text-center">
-                 <img src="https://placehold.co/120x120/FDF9F3/FFC0CB?text=Chibi" alt="Cute Chibi Character" class="mx-auto mb-4 w-24 h-24 rounded-full border-2 border-accent-pink">
-                <h1 class="text-4xl font-bold text-accent-red">Halo, selamat datang!</h1>
-                <p class="text-text-dark mt-2 mb-8">Pilih jalanmu hari ini~</p>
+                <!-- Logo Buku -->
+                <svg class="w-16 h-16 mx-auto mb-2 text-accent-red" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor">
+                    <path stroke-linecap="round" stroke-linejoin="round" d="M12 6.042A8.967 8.967 0 006 3.75c-1.052 0-2.062.18-3 .512v14.25A8.987 8.987 0 016 18c2.305 0 4.408.867 6 2.292m0-14.25a8.966 8.966 0 016-2.292c1.052 0 2.062.18 3 .512v14.25A8.987 8.987 0 0018 18c-2.305 0-4.408.867-6 2.292m0-14.25v14.25" />
+                </svg>
+                <h1 class="text-4xl font-bold text-accent-red mb-2">Class Info D</h1>
+                 <p class="text-text-dark mt-2 mb-8">Halo, selamat datang!</p>
                 <div class="space-y-4">
                     <button onclick="showLoginView('user')" class="w-full btn-primary font-bold py-3 px-4 rounded-lg transition duration-300 shadow-lg text-lg">Masuk sebagai Murid</button>
                     <button onclick="showLoginView('admin')" class="w-full btn-secondary font-bold py-3 px-4 rounded-lg transition duration-300 shadow-lg text-lg">Masuk sebagai Pengelola</button>
@@ -122,10 +134,10 @@
             </div>
         </div>
 
-        <!-- User Login Section --><div id="user-login-section" class="hidden w-full max-w-md">
+        <!-- Login Pengguna -->
+        <div id="user-login-section" class="hidden w-full max-w-md">
             <div class="card bg-blur p-8 rounded-2xl shadow-2xl">
                 <div class="text-center mb-8">
-                     <img src="https://placehold.co/100x100/FDF9F3/A2D9CE?text=Bunga" alt="Cute Flower Icon" class="mx-auto mb-4 w-20 h-20 rounded-full border-2 border-accent-green">
                     <h1 class="text-4xl font-bold text-accent-red">Selamat Datang!</h1>
                     <p class="text-text-dark mt-2">Masuk untuk melihat jadwalmu.</p>
                 </div>
@@ -145,10 +157,10 @@
             </div>
         </div>
         
-        <!-- Admin Login Section --><div id="admin-login-section" class="hidden w-full max-w-md">
+        <!-- Login Admin -->
+        <div id="admin-login-section" class="hidden w-full max-w-md">
             <div class="card bg-blur p-8 rounded-2xl shadow-2xl">
                 <div class="text-center mb-8">
-                    <img src="https://placehold.co/100x100/FDF9F3/E65A5A?text=Apel" alt="Cute Apple Icon" class="mx-auto mb-4 w-20 h-20 rounded-full border-2 border-accent-red">
                     <h1 class="text-4xl font-bold text-accent-red">Area Pengelola</h1>
                     <p class="text-text-dark mt-2">Atur jadwal dan notifikasi.</p>
                 </div>
@@ -168,8 +180,10 @@
             </div>
         </div>
 
-        <!-- User Dashboard --><div id="user-dashboard" class="hidden w-full max-w-7xl">
-            <!-- User Header --><div class="card bg-blur p-6 rounded-2xl shadow-2xl mb-6 flex justify-between items-center">
+        <!-- Dasbor Pengguna -->
+        <div id="user-dashboard" class="hidden w-full max-w-7xl">
+            <!-- Header Pengguna -->
+            <div class="card bg-blur p-6 rounded-2xl shadow-2xl mb-6 flex justify-between items-center">
                 <div>
                     <h2 class="text-3xl font-bold text-accent-red">Dasbor Murid</h2>
                     <p id="user-welcome" class="text-text-dark"></p>
@@ -178,32 +192,41 @@
             </div>
 
             <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
-                <!-- User Notifications --><div class="lg:col-span-1">
+                <!-- Notifikasi Pengguna -->
+                <div class="lg:col-span-1">
                     <div class="card bg-blur p-6 rounded-2xl shadow-2xl h-full">
                         <h3 class="text-2xl font-bold mb-4 text-accent-red">Pengumuman Terbaru</h3>
                         <div id="user-notifications" class="space-y-3 max-h-[150px] overflow-y-auto scroll-container">
-                            <!-- Notifications will be injected here --></div>
+                            <!-- Notifikasi akan di-render di sini -->
+                        </div>
                     </div>
                 </div>
-                 <!-- Picket Schedule --><div class="lg:col-span-1">
+                 <!-- Jadwal Piket Pengguna -->
+                <div class="lg:col-span-1">
                     <div class="card bg-blur p-6 rounded-2xl shadow-2xl h-full">
                         <h3 class="text-2xl font-bold mb-4 text-accent-red">Jadwal Piketku</h3>
                         <div id="user-picket-schedule">
-                            <!-- User's picket schedule will be injected here --></div>
+                            <!-- Jadwal piket akan di-render di sini -->
+                        </div>
                     </div>
                 </div>
-                <!-- Full Class Schedule --><div class="lg:col-span-3">
+                
+                <!-- Jadwal Pelajaran (Penuh) -->
+                <div class="lg:col-span-3">
                     <div class="card bg-blur p-6 rounded-2xl shadow-2xl">
                         <h3 class="text-2xl font-bold mb-4 text-accent-red">Jadwal Pelajaran Lengkap</h3>
                         <div id="user-class-schedule" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-4">
-                            <!-- Class schedule will be injected here --></div>
+                            <!-- Jadwal pelajaran akan di-render di sini -->
+                        </div>
                     </div>
                 </div>
             </div>
         </div>
 
-        <!-- Admin Dashboard --><div id="admin-dashboard" class="hidden w-full max-w-7xl">
-             <!-- Admin Header --><div class="card bg-blur p-6 rounded-2xl shadow-2xl mb-6 flex justify-between items-center">
+        <!-- Dasbor Admin -->
+        <div id="admin-dashboard" class="hidden w-full max-w-7xl">
+             <!-- Header Admin -->
+            <div class="card bg-blur p-6 rounded-2xl shadow-2xl mb-6 flex justify-between items-center">
                 <div>
                     <h2 class="text-3xl font-bold text-accent-red">Dasbor Pengelola</h2>
                     <p class="text-text-dark">Selamat datang, Pengelola!</p>
@@ -212,11 +235,13 @@
             </div>
             
             <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
-                <!-- Manage Schedules --><div>
+                <!-- Kelola Jadwal Pelajaran -->
+                <div>
                     <div class="card bg-blur p-6 rounded-2xl shadow-2xl">
                         <h3 class="text-2xl font-bold mb-4 text-accent-red">Kelola Jadwal Pelajaran</h3>
                         <div id="admin-class-schedule-list" class="space-y-4 max-h-[300px] overflow-y-auto scroll-container pr-2">
-                           <!-- Admin schedule management UI --></div>
+                           <!-- Daftar jadwal pelajaran admin -->
+                        </div>
                          <div class="mt-4">
                             <h4 class="font-semibold mb-2 text-lg text-text-dark">Tambah Pelajaran Baru</h4>
                             <form id="add-lesson-form" class="grid grid-cols-1 sm:grid-cols-3 gap-2">
@@ -231,11 +256,13 @@
                     </div>
                 </div>
                 
-                 <!-- Manage Pickets --><div>
+                 <!-- Kelola Jadwal Piket -->
+                <div>
                     <div class="card bg-blur p-6 rounded-2xl shadow-2xl">
                         <h3 class="text-2xl font-bold mb-4 text-accent-red">Kelola Jadwal Piket</h3>
                         <div id="admin-picket-schedule-list" class="space-y-4 max-h-[300px] overflow-y-auto scroll-container pr-2">
-                           <!-- Admin picket management UI --></div>
+                           <!-- Daftar piket admin -->
+                        </div>
                         <div class="mt-4">
                             <h4 class="font-semibold mb-2 text-lg text-text-dark">Tambah Anggota Piket</h4>
                             <form id="add-picket-form" class="grid grid-cols-1 sm:grid-cols-2 gap-2">
@@ -249,7 +276,8 @@
                     </div>
                 </div>
 
-                <!-- Send Notifications --><div class="lg:col-span-2">
+                <!-- Kelola Notifikasi -->
+                <div class="lg:col-span-2">
                     <div class="card bg-blur p-6 rounded-2xl shadow-2xl">
                         <h3 class="text-2xl font-bold mb-4 text-accent-red">Kirim Pengumuman</h3>
                         <form id="send-notification-form">
@@ -278,10 +306,6 @@
     </div>
     
     <script>
-        // Background images matching the new theme
-        const loginBgUrl = "url('https://images.unsplash.com/photo-1588624424912-37651c6b51cf?q=80&w=2070&auto=format&fit=crop')"; // Strawberry background
-        const dashboardBgUrl = "url('https://images.unsplash.com/photo-1565005446401-49352c2f6023?q=80&w=1974&auto=format&fit=crop')"; // Cheesecake background
-
         // --- DATABASE (SIMULATED) ---
         let users = {
             'Nabil': 'user123', 'Malia': 'user123', 'Sultan': 'user123', 'Nasya': 'user123',
@@ -297,34 +321,34 @@
         
         let classSchedule = {
             Senin: [
-                { subject: 'Bahasa Indonesia', time: '07.15-09.30' },
-                { subject: 'Informatika', time: '09.45-12.00' },
-                { subject: 'Bimbingan Konseling', time: '12.45-13.30' },
-                { subject: 'Geografi', time: '13.30-15.00' },
+                { id: 1, subject: 'Bahasa Indonesia', time: '07.15-09.30' },
+                { id: 2, subject: 'Informatika', time: '09.45-12.00' },
+                { id: 3, subject: 'Bimbingan Konseling', time: '12.45-13.30' },
+                { id: 4, subject: 'Geografi', time: '13.30-15.00' },
             ],
             Selasa: [
-                { subject: 'Bahasa Sunda', time: '06.30-08.00' },
-                { subject: 'PJOK', time: '08.00-09.30' },
-                { subject: 'Sejarah', time: '09.45-11.15' },
-                { subject: 'Bimbingan Konseling', time: '11.15-12.00' }, // Added BC here
-                { subject: 'Bahasa Inggris', time: '12.45-15.00' },
+                { id: 5, subject: 'Bahasa Sunda', time: '06.30-08.00' },
+                { id: 6, subject: 'PJOK', time: '08.00-09.30' },
+                { id: 7, subject: 'Sejarah', time: '09.45-11.15' },
+                { id: 8, subject: 'Bimbingan Konseling', time: '11.15-12.00' },
+                { id: 9, subject: 'Bahasa Inggris', time: '12.45-15.00' },
             ],
             Rabu: [
-                { subject: 'PPKN', time: '06.30-08.00' },
-                { subject: 'Informatika', time: '08.00-09.30' },
-                { subject: 'Fisika', time: '09.45-12.00' },
-                { subject: 'Geografi', time: '12.45 - 15.00' },
+                { id: 10, subject: 'PPKN', time: '06.30-08.00' },
+                { id: 11, subject: 'Informatika', time: '08.00-09.30' },
+                { id: 12, subject: 'Fisika', time: '09.45-12.00' },
+                { id: 13, subject: 'Geografi', time: '12.45 - 15.00' },
             ],
             Kamis: [
-                { subject: 'Fisika', time: '06.30-08.00' },
-                { subject: 'Pendidikan Agama Islam', time: '08.00-09.30' },
-                { subject: 'Biologi', time: '09.45-12.00' },
-                { subject: 'Matematika', time: '12.45-15.00' },
+                { id: 14, subject: 'Fisika', time: '06.30-08.00' },
+                { id: 15, subject: 'Pendidikan Agama Islam', time: '08.00-09.30' },
+                { id: 16, subject: 'Biologi', time: '09.45-12.00' },
+                { id: 17, subject: 'Matematika', time: '12.45-15.00' },
             ],
             Jumat: [
-                { subject: 'PKWU', time: '07.10-08.30' },
-                { subject: 'Seni Budaya', time: '08.30-10.05' },
-                { subject: 'Biologi', time: '10.05-11.25' },
+                { id: 18, subject: 'PKWU', time: '07.10-08.30' },
+                { id: 19, subject: 'Seni Budaya', time: '08.30-10.05' },
+                { id: 20, subject: 'Biologi', time: '10.05-11.25' },
             ]
         };
 
@@ -364,7 +388,8 @@
         }
         
         function setBackground(type) {
-             document.body.style.backgroundImage = type === 'login' ? loginBgUrl : dashboardBgUrl;
+             document.body.classList.remove('login-bg', 'dashboard-bg'); // Clear previous
+             document.body.classList.add(type + '-bg'); // Add new
         }
 
         window.showInitialView = function() {
@@ -420,7 +445,7 @@
             const userNotifs = notifications.filter(n => n.target === 'all' || n.target === loggedInUser);
             if (userNotifs.length > 0) {
                  notifContainer.innerHTML = '';
-                 userNotifs.reverse().forEach(n => { 
+                 userNotifs.slice().reverse().forEach(n => { // Tampilkan yg terbaru dulu
                     const notifEl = document.createElement('div');
                     notifEl.className = 'bg-accent-pink bg-opacity-40 p-3 rounded-lg text-sm text-text-dark';
                     notifEl.innerHTML = `<p>${n.message}</p><span class="text-xs text-gray-700">Untuk: ${n.target === 'all' ? 'Semua' : n.target}</span>`;
@@ -558,7 +583,7 @@
             const day = document.getElementById('add-lesson-day').value;
             const name = document.getElementById('add-lesson-name').value;
             const time = document.getElementById('add-lesson-time').value;
-            classSchedule[day].push({ subject: name, time: time });
+            classSchedule[day].push({ id: Date.now(), subject: name, time: time }); // Tambah id unik
             renderAdminClassSchedule();
             this.reset();
         });
@@ -572,11 +597,13 @@
             e.preventDefault();
             const day = document.getElementById('add-picket-day').value;
             const name = document.getElementById('add-picket-name').value;
+            // Tambahkan user baru jika belum ada
             if (users[name] === undefined) { 
                 users[name] = 'user123';
             }
             picketSchedule[day].push(name);
             renderAdminPicketSchedule();
+            renderNotificationManager(); // Update daftar target notifikasi
             this.reset();
         });
 
@@ -605,4 +632,3 @@
     </script>
 </body>
 </html>
-
