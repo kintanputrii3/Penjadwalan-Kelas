@@ -4,631 +4,784 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Class Info D</title>
+    <!-- Memuat Tailwind CSS -->
     <script src="https://cdn.tailwindcss.com"></script>
+    
+    <!-- Memuat Supabase Client -->
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    
+    <!-- Memuat Google Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Cherry+Bomb+One&family=Open+Sans:wght@400;600;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700&family=Lobster&display=swap" rel="stylesheet">
+    
+    <!-- CSS Kustom (Sama seperti sebelumnya) -->
     <style>
-        /* Igari Color Palette & Theme */
-        :root {
-            --bg-light: #FDF9F3; /* Soft cream/off-white */
-            --bg-medium: #F3EFE9; /* Slightly darker cream */
-            --text-dark: #3F3F3F; /* Dark grey for text */
-            --accent-pink: #FFC0CB; /* Soft pink */
-            --accent-green: #A2D9CE; /* Soft mint green */
-            --accent-red: #E65A5A; /* Muted red */
-            --border-color: #E0DED7; /* Light subtle border */
-        }
+        /* * Tema Igari Mori
+         * Palette:
+         * Cream: #F7F3E8
+         * Green: #7A9B76
+         * Red: #D96060
+         * Yellow: #F0D064
+         * Dark Text: #4E413B
+        */
         body {
-            font-family: 'Open Sans', sans-serif;
-            background-color: var(--bg-light);
-            color: var(--text-dark);
-            transition: background-image 0.5s ease-in-out;
-            background-size: cover;
-            background-position: center;
-            background-attachment: fixed;
-        }
-        h1, h2, h3, h4 {
-            font-family: 'Cherry Bomb One', cursive; /* Playful, bold font for titles */
-            color: var(--accent-red);
-        }
-        .bg-blur {
-            backdrop-filter: blur(5px);
-            -webkit-backdrop-filter: blur(5px);
-        }
-        .scroll-container {
-            -ms-overflow-style: none;
-            scrollbar-width: none;
-        }
-        .scroll-container::-webkit-scrollbar {
-            display: none;
-        }
-        .card {
-            background-color: rgba(255, 255, 255, 0.85); /* White with opacity */
-            border: 1px solid var(--border-color);
-            box-shadow: 0 4px 12px rgba(0,0,0,0.08);
-            backdrop-filter: blur(8px); /* More blur for a softer look */
-            -webkit-backdrop-filter: blur(8px);
-        }
-        .btn-primary { /* User-focused / main actions */
-            background-color: var(--accent-pink);
-            color: var(--text-dark);
-            border: 1px solid var(--accent-pink);
-        }
-        .btn-primary:hover {
-            background-color: #FFB3C0; /* Slightly darker pink */
-        }
-        .btn-secondary { /* Admin-focused / secondary actions */
-             background-color: var(--accent-green);
-             color: var(--text-dark);
-             border: 1px solid var(--accent-green);
-        }
-        .btn-secondary:hover {
-            background-color: #8FD1C2; /* Slightly darker green */
-        }
-        .input-field {
-            background-color: var(--bg-medium);
-            border: 1px solid var(--border-color);
-            color: var(--text-dark);
-        }
-        .input-field::placeholder {
-            color: #888;
-        }
-        .input-field:focus {
-            outline: none;
-            box-shadow: 0 0 0 2px var(--accent-pink); /* Pink focus for user, maybe green for admin */
-        }
-        /* Specific input field focus for admin */
-        #admin-login-section .input-field:focus,
-        #admin-dashboard .input-field:focus {
-             box-shadow: 0 0 0 2px var(--accent-green);
+            font-family: 'Nunito', sans-serif;
+            background-color: #F7F3E8; /* Cream */
+            color: #4E413B;
         }
 
-        .text-accent {
-            color: var(--accent-red); /* Muted red for primary accents */
-        }
-        .text-accent-light {
-             color: var(--accent-pink); /* Pink for lighter accents */
-        }
-        .border-accent {
-            border-color: var(--accent-pink);
-        }
-         .border-accent-light {
-            border-color: var(--accent-green);
-        }
-        .logout-btn {
-            background-color: var(--accent-red);
-            color: var(--white);
-            border: 1px solid var(--accent-red);
-        }
-        .logout-btn:hover {
-            background-color: #D14B4B; /* Darker red */
+        h1, h2, h3, h4, h5, h6 {
+            font-family: 'Lobster', cursive;
         }
 
-        /* Specific backgrounds for login/dashboard */
-        .login-bg {
-            background-image: url('https://images.unsplash.com/photo-1587393855524-087f83d95bc9?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w1MDcxMzJ8MHwxfHNlYXJjaHwxfHxzdHJhd2JlcnJ5JTIwYmFja2dyb3VuZHxlbnwwfHx8fDE3MDc5NTExNTJ8MA&ixlib=rb-4.0.3&q=80&w=1080'); /* Strawberry background */
+        /* Latar Belakang Stroberi */
+        .strawberry-wallpaper {
+            background-color: #fce4e4;
+            background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='16' height='20' viewBox='0 0 16 20'%3E%3Cpath d='M8 1C5 1 2 3 0 6c-2 3-1 7 0 10 1 3 4 4 8 4s7-1 8-4c1-3 2-7 0-10C14 3 11 1 8 1z' fill='%23D96060' fill-opacity='0.7'/%3E%3Cpath d='M6 1C7 2 7 3 6 3s-1-1-1-1zm4 0c-1 1-1 2 0 2s1-1 1-1z' fill='%237A9B76' fill-opacity='0.7'/%3E%3C/svg%3E");
+            background-size: 24px 24px;
+            background-repeat: repeat;
         }
-        .dashboard-bg {
-            background-image: url('https://images.unsplash.com/photo-1563805042-76E04845e009?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w1MDcxMzJ8MHwxfHNlYXJjaHwxfHxjaGVlc2VjYWtlJTIwYmFja2dyb3VuZHxlbnwwfHx8fDE3MDc5NTExNzd8MA&ixlib=rb-4.0.3&q=80&w=1080'); /* Cheesecake background */
-        }
+        .bg-theme-cream { background-color: #F7F3E8; }
+        .bg-theme-green { background-color: #7A9B76; }
+        .btn-theme-green { background-color: #7A9B76; color: white; }
+        .btn-theme-green:hover { background-color: #5d7c5a; }
+        .bg-theme-red { background-color: #D96060; }
+        .btn-theme-red { background-color: #D96060; color: white; }
+        .btn-theme-red:hover { background-color: #b54a4a; }
+        .bg-theme-yellow { background-color: #F0D064; }
+        .text-theme-dark { color: #4E413B; }
+        .text-theme-red { color: #D96060; }
+        .text-theme-green { color: #7A9B76; }
+        .border-theme-green { border-color: #7A9B76; }
+        .border-theme-red { border-color: #D96060; }
+        .btn { @apply py-2 px-4 rounded-lg shadow-md font-semibold transition-all duration-200 transform hover:scale-105; }
+        .tab-btn { @apply py-2 px-4 font-semibold rounded-t-lg cursor-pointer; }
+        .tab-btn.active { @apply text-white; }
+        .tab-content { @apply p-4 bg-white rounded-b-lg rounded-tr-lg shadow-inner; }
+        .ribbon-header { @apply text-2xl font-bold text-white py-2 px-6 shadow-lg relative; background-color: #D96060; border-radius: 8px 8px 0 0; margin-bottom: 10px; }
+        .ribbon-header::after { content: ''; position: absolute; bottom: -10px; left: 0; width: 0; height: 0; border-style: solid; border-width: 0 0 10px 10px; border-color: transparent transparent #a34747 transparent; }
     </style>
 </head>
-<body class="text-dark selection:bg-accent-pink selection:text-white">
+<body class="bg-theme-cream min-h-screen">
 
-    <div id="app" class="min-h-screen flex items-center justify-center p-4">
+    <!-- Indikator Loading Global -->
+    <div id="loading-indicator" class="hidden fixed inset-0 bg-black/50 flex justify-center items-center z-50">
+        <div class="text-white text-2xl font-bold animate-pulse">Memuat...</div>
+    </div>
 
-        <!-- Tampilan Awal: Pilih Peran -->
-        <div id="initial-view" class="w-full max-w-md">
-            <div class="card bg-blur p-8 rounded-2xl shadow-2xl text-center">
-                <!-- Logo Buku -->
-                <svg class="w-16 h-16 mx-auto mb-2 text-accent-red" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor">
-                    <path stroke-linecap="round" stroke-linejoin="round" d="M12 6.042A8.967 8.967 0 006 3.75c-1.052 0-2.062.18-3 .512v14.25A8.987 8.987 0 016 18c2.305 0 4.408.867 6 2.292m0-14.25a8.966 8.966 0 016-2.292c1.052 0 2.062.18 3 .512v14.25A8.987 8.987 0 0018 18c-2.305 0-4.408.867-6 2.292m0-14.25v14.25" />
-                </svg>
-                <h1 class="text-4xl font-bold text-accent-red mb-2">Class Info D</h1>
-                 <p class="text-text-dark mt-2 mb-8">Halo, selamat datang!</p>
-                <div class="space-y-4">
-                    <button onclick="showLoginView('user')" class="w-full btn-primary font-bold py-3 px-4 rounded-lg transition duration-300 shadow-lg text-lg">Masuk sebagai Murid</button>
-                    <button onclick="showLoginView('admin')" class="w-full btn-secondary font-bold py-3 px-4 rounded-lg transition duration-300 shadow-lg text-lg">Masuk sebagai Pengelola</button>
-                </div>
-            </div>
-        </div>
+    <!-- Kontainer Utama Aplikasi -->
+    <div id="app" class="container mx-auto p-4 max-w-4xl">
 
-        <!-- Login Pengguna -->
-        <div id="user-login-section" class="hidden w-full max-w-md">
-            <div class="card bg-blur p-8 rounded-2xl shadow-2xl">
-                <div class="text-center mb-8">
-                    <h1 class="text-4xl font-bold text-accent-red">Selamat Datang!</h1>
-                    <p class="text-text-dark mt-2">Masuk untuk melihat jadwalmu.</p>
-                </div>
-                <form id="user-login-form">
-                    <div class="mb-4">
-                        <label for="user-username" class="block mb-2 text-sm font-medium text-text-dark">Nama Panggilan</label>
-                        <input type="text" id="user-username" class="w-full input-field rounded-lg px-4 py-2 transition duration-200" required>
-                    </div>
-                    <div class="mb-6">
-                        <label for="user-password" class="block mb-2 text-sm font-medium text-text-dark">Kata Sandi</label>
-                        <input type="password" id="user-password" class="w-full input-field rounded-lg px-4 py-2 transition duration-200" required>
-                    </div>
-                     <p id="user-login-error" class="text-red-500 text-sm mb-4 text-center hidden"></p>
-                    <button type="submit" class="w-full btn-primary font-bold py-2 px-4 rounded-lg transition duration-300 shadow-lg">Masuk</button>
-                    <button type="button" onclick="showInitialView()" class="w-full text-center text-text-dark hover:text-accent-red mt-4 text-sm">Kembali</button>
-                </form>
-            </div>
-        </div>
-        
-        <!-- Login Admin -->
-        <div id="admin-login-section" class="hidden w-full max-w-md">
-            <div class="card bg-blur p-8 rounded-2xl shadow-2xl">
-                <div class="text-center mb-8">
-                    <h1 class="text-4xl font-bold text-accent-red">Area Pengelola</h1>
-                    <p class="text-text-dark mt-2">Atur jadwal dan notifikasi.</p>
-                </div>
-                <form id="admin-login-form">
-                    <div class="mb-4">
-                        <label for="admin-username" class="block mb-2 text-sm font-medium text-text-dark">Nama Pengelola</label>
-                        <input type="text" id="admin-username" value="admin" class="w-full input-field rounded-lg px-4 py-2 transition duration-200" required>
-                    </div>
-                    <div class="mb-6">
-                        <label for="admin-password" class="block mb-2 text-sm font-medium text-text-dark">Kata Sandi</label>
-                        <input type="password" id="admin-password" class="w-full input-field rounded-lg px-4 py-2 transition duration-200" required>
-                    </div>
-                     <p id="admin-login-error" class="text-red-500 text-sm mb-4 text-center hidden"></p>
-                    <button type="submit" class="w-full btn-secondary font-bold py-2 px-4 rounded-lg transition duration-300 shadow-lg">Masuk</button>
-                    <button type="button" onclick="showInitialView()" class="w-full text-center text-text-dark hover:text-accent-red mt-4 text-sm">Kembali</button>
-                </form>
-            </div>
-        </div>
-
-        <!-- Dasbor Pengguna -->
-        <div id="user-dashboard" class="hidden w-full max-w-7xl">
-            <!-- Header Pengguna -->
-            <div class="card bg-blur p-6 rounded-2xl shadow-2xl mb-6 flex justify-between items-center">
-                <div>
-                    <h2 class="text-3xl font-bold text-accent-red">Dasbor Murid</h2>
-                    <p id="user-welcome" class="text-text-dark"></p>
-                </div>
-                <button id="user-logout-btn" class="logout-btn font-bold py-2 px-4 rounded-lg transition duration-300">Keluar</button>
-            </div>
-
-            <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
-                <!-- Notifikasi Pengguna -->
-                <div class="lg:col-span-1">
-                    <div class="card bg-blur p-6 rounded-2xl shadow-2xl h-full">
-                        <h3 class="text-2xl font-bold mb-4 text-accent-red">Pengumuman Terbaru</h3>
-                        <div id="user-notifications" class="space-y-3 max-h-[150px] overflow-y-auto scroll-container">
-                            <!-- Notifikasi akan di-render di sini -->
-                        </div>
-                    </div>
-                </div>
-                 <!-- Jadwal Piket Pengguna -->
-                <div class="lg:col-span-1">
-                    <div class="card bg-blur p-6 rounded-2xl shadow-2xl h-full">
-                        <h3 class="text-2xl font-bold mb-4 text-accent-red">Jadwal Piketku</h3>
-                        <div id="user-picket-schedule">
-                            <!-- Jadwal piket akan di-render di sini -->
-                        </div>
-                    </div>
-                </div>
+        <!-- 1. HALAMAN LOGIN -->
+        <div id="login-screen" class="strawberry-wallpaper p-6 md:p-10 rounded-2xl shadow-2xl border-4 border-white">
+            <div class="bg-white/90 p-8 rounded-xl shadow-lg max-w-lg mx-auto">
                 
-                <!-- Jadwal Pelajaran (Penuh) -->
-                <div class="lg:col-span-3">
-                    <div class="card bg-blur p-6 rounded-2xl shadow-2xl">
-                        <h3 class="text-2xl font-bold mb-4 text-accent-red">Jadwal Pelajaran Lengkap</h3>
-                        <div id="user-class-schedule" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-4">
-                            <!-- Jadwal pelajaran akan di-render di sini -->
-                        </div>
-                    </div>
+                <div class="flex justify-center mb-4">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="text-theme-green"><path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"/><path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"/></svg>
                 </div>
+
+                <h1 class="text-4xl text-center text-theme-red mb-4">🍓 Class Info D 🍓</h1>
+                <p class="text-center text-theme-dark mb-6">Silakan login untuk melanjutkan</p>
+                
+                <!-- Tab Admin/User (Hanya visual, login form sama) -->
+                <div class="flex mb-4 border-b-2" id="login-tab-container">
+                    <button data-target="user" class="login-tab tab-btn active flex-1 text-lg" style="background-color: #7A9B76;">Siswa</button>
+                    <button data-target="admin" class="login-tab tab-btn flex-1 text-lg" style="background-color: #D96060; opacity: 0.7;">Admin</button>
+                </div>
+
+                <!-- Form Login -->
+                <form id="login-form">
+                    <div class="mb-4">
+                        <!-- DIUBAH: Label dari Username menjadi Email -->
+                        <label for="email" class="block text-sm font-semibold mb-2">Email:</label>
+                        <input type="email" id="email" class="w-full px-3 py-2 border rounded-lg shadow-sm focus:outline-none focus:ring-2" required>
+                    </div>
+                    <div class="mb-6">
+                        <label for="password" class="block text-sm font-semibold mb-2">Password:</label>
+                        <input type="password" id="password" class="w-full px-3 py-2 border rounded-lg shadow-sm focus:outline-none focus:ring-2" required>
+                    </div>
+                    
+                    <button type="submit" id="login-button" class="btn w-full btn-theme-green text-lg">
+                        Login
+                    </button>
+                    
+                    <p id="login-error" class="text-red-600 text-center mt-4"></p>
+                </form>
             </div>
         </div>
 
-        <!-- Dasbor Admin -->
-        <div id="admin-dashboard" class="hidden w-full max-w-7xl">
-             <!-- Header Admin -->
-            <div class="card bg-blur p-6 rounded-2xl shadow-2xl mb-6 flex justify-between items-center">
-                <div>
-                    <h2 class="text-3xl font-bold text-accent-red">Dasbor Pengelola</h2>
-                    <p class="text-text-dark">Selamat datang, Pengelola!</p>
-                </div>
-                <button id="admin-logout-btn" class="logout-btn font-bold py-2 px-4 rounded-lg transition duration-300">Keluar</button>
+        <!-- 2. DASHBOARD USER -->
+        <div id="user-dashboard" class="hidden">
+            <header class="flex justify-between items-center mb-6 p-4 bg-theme-green text-white rounded-lg shadow-md">
+                <h1 class="text-3xl" id="welcome-user"></h1>
+                <button id="user-logout-btn" class="btn bg-theme-red hover:bg-red-700">Logout</button>
+            </header>
+
+            <div class="mb-4 flex">
+                <button data-target="user-tab-pelajaran" class="tab-btn user-tab active bg-theme-green">📚 Jadwal Pelajaran</button>
+                <button data-target="user-tab-piket" class="tab-btn user-tab bg-gray-300 text-gray-700">🧹 Jadwal Piket</button>
+                <button data-target="user-tab-notifikasi" class="tab-btn user-tab bg-gray-300 text-gray-700">🔔 Notifikasi</button>
+            </div>
+
+            <div id="user-tab-pelajaran" class="tab-content user-tab-content">
+                <h2 class="ribbon-header">Jadwal Pelajaran</h2>
+                <div id="user-jadwal-pelajaran-container" class="space-y-4"></div>
+            </div>
+            <div id="user-tab-piket" class="tab-content user-tab-content hidden">
+                <h2 class="ribbon-header" style="background-color: #7A9B76;">Jadwal Piket Saya</h2>
+                <div id="user-jadwal-piket-container"></div>
+            </div>
+            <div id="user-tab-notifikasi" class="tab-content user-tab-content hidden">
+                <h2 class="ribbon-header" style="background-color: #F0D064;">Notifikasi</h2>
+                <div id="user-notifikasi-container" class="space-y-3"></div>
+            </div>
+        </div>
+
+        <!-- 3. DASHBOARD ADMIN -->
+        <div id="admin-dashboard" class="hidden">
+            <header class="flex justify-between items-center mb-6 p-4 bg-theme-red text-white rounded-lg shadow-md">
+                <h1 class="text-3xl" id="welcome-admin">Welcome, Admin!</h1>
+                <button id="admin-logout-btn" class="btn bg-gray-800 hover:bg-gray-900">Logout</button>
+            </header>
+
+            <div class="mb-4 flex">
+                <button data-target="admin-tab-pelajaran" class="tab-btn admin-tab active bg-theme-red">Kelola Jadwal Pelajaran</button>
+                <button data-target="admin-tab-piket" class="tab-btn admin-tab bg-gray-300 text-gray-700">Kelola Jadwal Piket</button>
+                <button data-target="admin-tab-notifikasi" class="tab-btn admin-tab bg-gray-300 text-gray-700">Kelola Notifikasi</button>
             </div>
             
-            <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
-                <!-- Kelola Jadwal Pelajaran -->
-                <div>
-                    <div class="card bg-blur p-6 rounded-2xl shadow-2xl">
-                        <h3 class="text-2xl font-bold mb-4 text-accent-red">Kelola Jadwal Pelajaran</h3>
-                        <div id="admin-class-schedule-list" class="space-y-4 max-h-[300px] overflow-y-auto scroll-container pr-2">
-                           <!-- Daftar jadwal pelajaran admin -->
-                        </div>
-                         <div class="mt-4">
-                            <h4 class="font-semibold mb-2 text-lg text-text-dark">Tambah Pelajaran Baru</h4>
-                            <form id="add-lesson-form" class="grid grid-cols-1 sm:grid-cols-3 gap-2">
-                                <select id="add-lesson-day" class="input-field rounded-lg px-3 py-2 text-text-dark">
-                                    <option>Senin</option><option>Selasa</option><option>Rabu</option><option>Kamis</option><option>Jumat</option>
-                                </select>
-                                <input type="text" id="add-lesson-name" placeholder="Nama Pelajaran" class="input-field rounded-lg px-3 py-2 text-text-dark" required>
-                                <input type="text" id="add-lesson-time" placeholder="00.00-00.00" class="input-field rounded-lg px-3 py-2 text-text-dark" required>
-                                <button type="submit" class="sm:col-span-3 w-full btn-secondary font-bold py-2 rounded-lg transition duration-300 mt-2">Tambah</button>
-                            </form>
-                        </div>
+            <!-- Kelola Jadwal Pelajaran -->
+            <div id="admin-tab-pelajaran" class="tab-content admin-tab-content">
+                <h2 class="ribbon-header">Kelola Jadwal Pelajaran 📚</h2>
+                <form id="form-edit-pelajaran" class="mb-6 p-4 bg-theme-cream rounded-lg shadow-sm border border-theme-red">
+                    <h3 class="text-xl font-semibold mb-3 text-theme-red">Tambah / Edit Pelajaran</h3>
+                    <input type="hidden" id="pelajaran-edit-id">
+                    <div class="grid grid-cols-1 md:grid-cols-3 gap-3">
+                        <select id="pelajaran-hari" class="w-full p-2 border rounded-lg">
+                            <option value="Senin">Senin</option>
+                            <option value="Selasa">Selasa</option>
+                            <option value="Rabu">Rabu</option>
+                            <option value="Kamis">Kamis</option>
+                            <option value="Jumat">Jumat</option>
+                        </select>
+                        <input type="text" id="pelajaran-waktu" placeholder="cth: 07.15-09.30" class="w-full p-2 border rounded-lg">
+                        <input type="text" id="pelajaran-mapel" placeholder="Mata Pelajaran" class="w-full p-2 border rounded-lg">
                     </div>
-                </div>
-                
-                 <!-- Kelola Jadwal Piket -->
-                <div>
-                    <div class="card bg-blur p-6 rounded-2xl shadow-2xl">
-                        <h3 class="text-2xl font-bold mb-4 text-accent-red">Kelola Jadwal Piket</h3>
-                        <div id="admin-picket-schedule-list" class="space-y-4 max-h-[300px] overflow-y-auto scroll-container pr-2">
-                           <!-- Daftar piket admin -->
-                        </div>
-                        <div class="mt-4">
-                            <h4 class="font-semibold mb-2 text-lg text-text-dark">Tambah Anggota Piket</h4>
-                            <form id="add-picket-form" class="grid grid-cols-1 sm:grid-cols-2 gap-2">
-                                <select id="add-picket-day" class="input-field rounded-lg px-3 py-2 text-text-dark">
-                                    <option>Senin</option><option>Selasa</option><option>Rabu</option><option>Kamis</option><option>Jumat</option>
-                                </select>
-                                <input type="text" id="add-picket-name" placeholder="Nama Murid" class="input-field rounded-lg px-3 py-2 text-text-dark" required>
-                                <button type="submit" class="sm:col-span-2 w-full btn-secondary font-bold py-2 rounded-lg transition duration-300 mt-2">Tambah</button>
-                            </form>
-                        </div>
+                    <div class="mt-3 flex gap-2">
+                        <button type="submit" class="btn btn-theme-green">Simpan</button>
+                        <button type="button" id="batal-edit-pelajaran" class="btn bg-gray-400 hover:bg-gray-500">Batal</button>
                     </div>
-                </div>
+                </form>
+                <div id="admin-jadwal-pelajaran-container" class="space-y-4"></div>
+            </div>
 
-                <!-- Kelola Notifikasi -->
-                <div class="lg:col-span-2">
-                    <div class="card bg-blur p-6 rounded-2xl shadow-2xl">
-                        <h3 class="text-2xl font-bold mb-4 text-accent-red">Kirim Pengumuman</h3>
-                        <form id="send-notification-form">
-                            <div class="mb-4">
-                                <label for="notification-target" class="block mb-2 text-sm font-medium text-text-dark">Kirim Ke</label>
-                                <select id="notification-target" class="w-full input-field rounded-lg px-4 py-2 text-text-dark">
-                                    <option value="all">Semua Murid</option>
-                                </select>
-                            </div>
-                            <div class="mb-4">
-                                <label for="notification-message" class="block mb-2 text-sm font-medium text-text-dark">Pesan</label>
-                                <textarea id="notification-message" rows="3" class="w-full input-field rounded-lg px-4 py-2 text-text-dark" required></textarea>
-                            </div>
-                            <button type="submit" class="w-full btn-primary font-bold py-2 rounded-lg transition duration-300">Kirim</button>
-                        </form>
-                        <div class="mt-6">
-                            <h4 class="text-xl font-semibold mb-3 text-text-dark">Riwayat Pengumuman</h4>
-                            <div id="notification-history" class="space-y-2 max-h-[150px] overflow-y-auto scroll-container pr-2">
-                            </div>
-                        </div>
+            <!-- Kelola Jadwal Piket -->
+            <div id="admin-tab-piket" class="tab-content admin-tab-content hidden">
+                <h2 class="ribbon-header" style="background-color: #7A9B76;">Kelola Jadwal Piket 🧹</h2>
+                <form id="form-edit-piket" class="mb-6 p-4 bg-theme-cream rounded-lg shadow-sm border border-theme-green">
+                    <h3 class="text-xl font-semibold mb-3 text-theme-green">Tambah Siswa Piket</h3>
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-3">
+                        <select id="piket-hari" class="w-full p-2 border rounded-lg">
+                            <option value="Senin">Senin</option>
+                            <option value="Selasa">Selasa</option>
+                            <option value="Rabu">Rabu</option>
+                            <option value="Kamis">Kamis</option>
+                            <option value="Jumat">Jumat</option>
+                        </select>
+                        <input type="text" id="piket-nama" placeholder="Nama Siswa (harus sama dengan username)" class="w-full p-2 border rounded-lg">
                     </div>
-                </div>
+                    <button type="submit" class="btn btn-theme-green mt-3">Tambah Siswa</button>
+                </form>
+                <div id="admin-jadwal-piket-container" class="space-y-4"></div>
+            </div>
+
+            <!-- Kelola Notifikasi -->
+            <div id="admin-tab-notifikasi" class="tab-content admin-tab-content hidden">
+                <h2 class="ribbon-header" style="background-color: #F0D064;">Kelola Notifikasi 🔔</h2>
+                <form id="form-kirim-notifikasi" class="mb-6 p-4 bg-theme-cream rounded-lg shadow-sm border border-theme-yellow">
+                    <h3 class="text-xl font-semibold mb-3 text-theme-dark">Kirim Notifikasi Baru</h3>
+                    <div class="mb-3">
+                        <label for="notifikasi-target" class="block text-sm font-semibold mb-1">Kirim ke:</label>
+                        <select id="notifikasi-target" class="w-full p-2 border rounded-lg">
+                            <option value="all">Semua Siswa</option>
+                            <!-- Daftar siswa akan ditambahkan oleh JS -->
+                        </select>
+                    </div>
+                    <div class="mb-3">
+                        <label for="notifikasi-pesan" class="block text-sm font-semibold mb-1">Pesan:</label>
+                        <textarea id="notifikasi-pesan" rows="3" class="w-full p-2 border rounded-lg" placeholder="Tulis pesan notifikasi..."></textarea>
+                    </div>
+                    <button type="submit" class="btn btn-theme-green">Kirim Notifikasi</button>
+                </form>
+                <h3 class="text-xl font-semibold mb-3 text-theme-dark">Daftar Notifikasi Terkirim:</h3>
+                <div id="admin-notifikasi-container" class="space-y-3"></div>
             </div>
         </div>
 
     </div>
-    
-    <script>
-        // --- DATABASE (SIMULATED) ---
-        let users = {
-            'Nabil': 'user123', 'Malia': 'user123', 'Sultan': 'user123', 'Nasya': 'user123',
-            'Naya': 'user123', 'Hasna': 'user123', 'Kintan': 'user123', 'Nadia': 'user123',
-            'Farhan': 'user123', 'Chairil': 'user123', 'Syakilla': 'user123', 'Zahra': 'user123',
-            'Aldebaran': 'user123', 'Aulia': 'user123', 'Heni': 'user123', 'Luna': 'user123',
-            'Resti': 'user123', 'Denian': 'user123', 'Raka': 'user123', 'Syafira': 'user123',
-            'Fajri': 'user123', 'Ridhan': 'user123', 'Naisya': 'user123', 'Puspita': 'user123',
-            'Rizqy': 'user123', 'Maya': 'user123', 'Anzilah': 'user123', 'Ghaisan': 'user123',
-            'Rafa': 'user123', 'Putri': 'user123', 'Fadhillah': 'user123', 'Syifa': 'user123',
-            'Daiva': 'user123', 'Keisha': 'user123', 'Ayya': 'user123', 'Iyan': 'user123'
-        };
+
+    <!-- JavaScript Aplikasi -->
+    <script type="module">
+        // --- KONEKSI SUPABASE ---
+        // GANTI DENGAN URL DAN KUNCI ANON DARI PROYEK SUPABASE ANDA (DARI LANGKAH 2 PANDUAN)
+        const SUPABASE_URL = 'https://URL_PROYEK_ANDA.supabase.co';
+        const SUPABASE_KEY = 'KUNCI_ANON_PUBLIK_ANDA';
+
+        const { createClient } = supabase;
+        const db = createClient(SUPABASE_URL, SUPABASE_KEY);
         
-        let classSchedule = {
-            Senin: [
-                { id: 1, subject: 'Bahasa Indonesia', time: '07.15-09.30' },
-                { id: 2, subject: 'Informatika', time: '09.45-12.00' },
-                { id: 3, subject: 'Bimbingan Konseling', time: '12.45-13.30' },
-                { id: 4, subject: 'Geografi', time: '13.30-15.00' },
-            ],
-            Selasa: [
-                { id: 5, subject: 'Bahasa Sunda', time: '06.30-08.00' },
-                { id: 6, subject: 'PJOK', time: '08.00-09.30' },
-                { id: 7, subject: 'Sejarah', time: '09.45-11.15' },
-                { id: 8, subject: 'Bimbingan Konseling', time: '11.15-12.00' },
-                { id: 9, subject: 'Bahasa Inggris', time: '12.45-15.00' },
-            ],
-            Rabu: [
-                { id: 10, subject: 'PPKN', time: '06.30-08.00' },
-                { id: 11, subject: 'Informatika', time: '08.00-09.30' },
-                { id: 12, subject: 'Fisika', time: '09.45-12.00' },
-                { id: 13, subject: 'Geografi', time: '12.45 - 15.00' },
-            ],
-            Kamis: [
-                { id: 14, subject: 'Fisika', time: '06.30-08.00' },
-                { id: 15, subject: 'Pendidikan Agama Islam', time: '08.00-09.30' },
-                { id: 16, subject: 'Biologi', time: '09.45-12.00' },
-                { id: 17, subject: 'Matematika', time: '12.45-15.00' },
-            ],
-            Jumat: [
-                { id: 18, subject: 'PKWU', time: '07.10-08.30' },
-                { id: 19, subject: 'Seni Budaya', time: '08.30-10.05' },
-                { id: 20, subject: 'Biologi', time: '10.05-11.25' },
-            ]
+        // Cek koneksi (opsional)
+        if (!db) {
+            console.error("Koneksi Supabase gagal. Periksa URL dan Kunci.");
+            alert("Koneksi ke database gagal!");
+        }
+
+        // Objek state aplikasi
+        let appState = {
+            currentUser: null, // { session: Session, profile: {id, username, role} }
+            currentView: 'login', // 'login', 'user', 'admin'
+            editingPelajaranId: null
         };
 
-        let picketSchedule = {
-            Senin: ['Nabil', 'Malia', 'Sultan', 'Nasya', 'Naya', 'Hasna', 'Kintan', 'Nadia'],
-            Selasa: ['Farhan', 'Chairil', 'Syakilla', 'Zahra', 'Aldebaran', 'Aulia', 'Heni'],
-            Rabu: ['Luna', 'Resti', 'Denian', 'Raka', 'Syafira', 'Fajri', 'Ridhan'],
-            Kamis: ['Naisya', 'Puspita', 'Rizqy', 'Maya', 'Anzilah', 'Ghaisan', 'Rafa'],
-            Jumat: ['Putri', 'Fadhillah', 'Syifa', 'Daiva', 'Keisha', 'Ayya', 'Iyan']
-        };
+        const loadingIndicator = document.getElementById('loading-indicator');
 
-        let notifications = [
-            { id: 1, target: 'all', message: 'Selamat datang di aplikasi Class Info D!' },
-            { id: 2, target: 'Nabil', message: 'Jangan lupa tugas Bahasa Indonesia dikumpulkan besok.'}
-        ];
+        // --- Fungsi Helper Loading ---
+        function showLoading() { loadingIndicator.classList.remove('hidden'); }
+        function hideLoading() { loadingIndicator.classList.add('hidden'); }
+
         
-        let loggedInUser = null;
+        // --- Fungsi Render Tampilan ---
+        async function renderApp() {
+            const loginScreen = document.getElementById('login-screen');
+            const userDashboard = document.getElementById('user-dashboard');
+            const adminDashboard = document.getElementById('admin-dashboard');
 
-        // --- DOM ELEMENTS ---
-        const initialView = document.getElementById('initial-view');
-        const userLoginSection = document.getElementById('user-login-section');
-        const adminLoginSection = document.getElementById('admin-login-section');
-        const userDashboard = document.getElementById('user-dashboard');
-        const adminDashboard = document.getElementById('admin-dashboard');
+            loginScreen.classList.add('hidden');
+            userDashboard.classList.add('hidden');
+            adminDashboard.classList.add('hidden');
 
-        // --- RENDER FUNCTIONS ---
-        const views = [initialView, userLoginSection, adminLoginSection, userDashboard, adminDashboard];
-        
-        function showView(viewToShow) {
-            views.forEach(view => {
-                if (view === viewToShow) {
-                    view.classList.remove('hidden');
+            if (appState.currentView === 'login') {
+                loginScreen.classList.remove('hidden');
+                document.getElementById('login-error').textContent = '';
+                document.getElementById('email').value = '';
+                document.getElementById('password').value = '';
+                document.querySelector('.login-tab[data-target="user"]').click();
+            } else if (appState.currentView === 'user') {
+                userDashboard.classList.remove('hidden');
+                await renderUserDashboard();
+            } else if (appState.currentView === 'admin') {
+                adminDashboard.classList.remove('hidden');
+                await renderAdminDashboard();
+            }
+        }
+
+        // --- Fungsi Render Dashboard User ---
+        async function renderUserDashboard() {
+            document.getElementById('welcome-user').textContent = `Hi, ${appState.currentUser.profile.username}! 🌸`;
+            showLoading();
+            await Promise.all([
+                renderUserJadwalPelajaran(),
+                renderUserJadwalPiket(),
+                renderUserNotifikasi()
+            ]);
+            hideLoading();
+            switchUserTab('user-tab-pelajaran');
+        }
+
+        async function renderUserJadwalPelajaran() {
+            const container = document.getElementById('user-jadwal-pelajaran-container');
+            container.innerHTML = '';
+            
+            const { data, error } = await db.from('jadwal_pelajaran').select('*').order('waktu');
+            if (error) { console.error(error); return; }
+
+            // Kelompokkan berdasarkan hari
+            const scheduleByDay = data.reduce((acc, item) => {
+                if (!acc[item.hari]) acc[item.hari] = [];
+                acc[item.hari].push(item);
+                return acc;
+            }, {});
+
+            const days = ['Senin', 'Selasa', 'Rabu', 'Kamis', 'Jumat'];
+            days.forEach(day => {
+                const daySchedule = scheduleByDay[day] || [];
+                let dayHtml = `
+                    <div class="p-4 rounded-lg shadow-md bg-white border-l-4 border-theme-green">
+                        <h3 class="text-2xl font-semibold text-theme-green mb-3">${day} 🍎</h3>
+                        <ul class="space-y-2">
+                `;
+                if (daySchedule.length > 0) {
+                    daySchedule.forEach(item => {
+                        dayHtml += `
+                            <li class="flex justify-between items-center">
+                                <span class="font-semibold text-theme-dark">${item.mapel}</span>
+                                <span class="text-sm bg-theme-cream px-2 py-1 rounded">${item.waktu}</span>
+                            </li>
+                        `;
+                    });
                 } else {
-                    view.classList.add('hidden');
+                    dayHtml += `<li class="text-gray-500">Tidak ada jadwal</li>`;
                 }
+                dayHtml += `</ul></div>`;
+                container.innerHTML += dayHtml;
             });
         }
-        
-        function setBackground(type) {
-             document.body.classList.remove('login-bg', 'dashboard-bg'); // Clear previous
-             document.body.classList.add(type + '-bg'); // Add new
-        }
 
-        window.showInitialView = function() {
-            setBackground('login');
-            showView(initialView);
-        }
+        async function renderUserJadwalPiket() {
+            const container = document.getElementById('user-jadwal-piket-container');
+            container.innerHTML = '';
+            const userName = appState.currentUser.profile.username;
+            
+            const { data, error } = await db.from('jadwal_piket').select('*');
+            if (error) { console.error(error); return; }
 
-        window.showLoginView = function(type) {
-            // Keep the same login background for both user/admin login screens
-            setBackground('login'); 
-            if (type === 'user') {
-                showView(userLoginSection);
-            } else {
-                showView(adminLoginSection);
-            }
-        }
+            // Kelompokkan berdasarkan hari
+            const piketByDay = data.reduce((acc, item) => {
+                if (!acc[item.hari]) acc[item.hari] = [];
+                acc[item.hari].push(item.nama);
+                return acc;
+            }, {});
 
-        function renderUserDashboard() {
-            document.getElementById('user-welcome').textContent = `Hai ${loggedInUser}, semangat belajarnya!`;
-
-            // Render Class Schedule
-            const classContainer = document.getElementById('user-class-schedule');
-            classContainer.innerHTML = '';
-            for (const day in classSchedule) {
-                const dayCard = document.createElement('div');
-                dayCard.className = 'bg-bg-medium bg-opacity-80 p-4 rounded-lg shadow-md';
-                let lessonsHTML = `<h4 class="font-bold text-lg mb-2 text-accent-red">${day}</h4><ul class="space-y-1 text-sm">`;
-                classSchedule[day].forEach(lesson => {
-                    lessonsHTML += `<li class="text-text-dark"><span class="font-semibold">${lesson.subject}</span><br><span class="text-gray-600">${lesson.time}</span></li>`;
-                });
-                lessonsHTML += '</ul>';
-                dayCard.innerHTML = lessonsHTML;
-                classContainer.appendChild(dayCard);
-            }
-
-            // Render Picket Schedule
-            const picketContainer = document.getElementById('user-picket-schedule');
-            picketContainer.innerHTML = '<p class="text-gray-600">Kamu tidak punya jadwal piket hari ini!</p>';
-            for (const day in picketSchedule) {
-                if (picketSchedule[day].includes(loggedInUser)) {
-                    let picketHTML = `<h4 class="font-bold text-lg text-accent-red">${day}</h4><ul class="list-disc list-inside mt-2">`;
-                    picketSchedule[day].forEach(name => {
-                        picketHTML += `<li class="${name === loggedInUser ? 'font-bold text-accent-red' : 'text-text-dark'}">${name}</li>`;
-                    });
-                    picketHTML += '</ul>';
-                    picketContainer.innerHTML = picketHTML;
+            let myDay = null;
+            for (const day in piketByDay) {
+                if (piketByDay[day].includes(userName)) {
+                    myDay = day;
                     break;
                 }
             }
-
-            // Render Notifications
-            const notifContainer = document.getElementById('user-notifications');
-            const userNotifs = notifications.filter(n => n.target === 'all' || n.target === loggedInUser);
-            if (userNotifs.length > 0) {
-                 notifContainer.innerHTML = '';
-                 userNotifs.slice().reverse().forEach(n => { // Tampilkan yg terbaru dulu
-                    const notifEl = document.createElement('div');
-                    notifEl.className = 'bg-accent-pink bg-opacity-40 p-3 rounded-lg text-sm text-text-dark';
-                    notifEl.innerHTML = `<p>${n.message}</p><span class="text-xs text-gray-700">Untuk: ${n.target === 'all' ? 'Semua' : n.target}</span>`;
-                    notifContainer.appendChild(notifEl);
-                 });
-            } else {
-                 notifContainer.innerHTML = '<p class="text-gray-600 text-sm">Tidak ada pengumuman baru.</p>';
-            }
-        }
-
-        function renderAdminDashboard() {
-            renderAdminClassSchedule();
-            renderAdminPicketSchedule();
-            renderNotificationManager();
-        }
-
-        function renderAdminClassSchedule() {
-            const container = document.getElementById('admin-class-schedule-list');
-            container.innerHTML = '';
-            for (const day in classSchedule) {
-                const dayGroup = document.createElement('div');
-                let lessonsHTML = `<h4 class="font-bold text-lg text-accent-red">${day}</h4>`;
-                classSchedule[day].forEach((lesson, index) => {
-                    lessonsHTML += `
-                        <div class="flex justify-between items-center bg-bg-medium p-2 rounded-md mt-1 shadow-sm">
-                            <div>
-                                <p class="font-semibold text-text-dark">${lesson.subject}</p>
-                                <p class="text-sm text-gray-600">${lesson.time}</p>
-                            </div>
-                            <button onclick="deleteLesson('${day}', ${index})" class="text-red-500 hover:text-red-400 text-xs">Hapus</button>
-                        </div>
-                    `;
-                });
-                dayGroup.innerHTML = lessonsHTML;
-                container.appendChild(dayGroup);
-            }
-        }
-
-        function renderAdminPicketSchedule() {
-            const container = document.getElementById('admin-picket-schedule-list');
-            container.innerHTML = '';
-             for (const day in picketSchedule) {
-                const dayGroup = document.createElement('div');
-                let picketsHTML = `<h4 class="font-bold text-lg text-accent-red">${day}</h4>`;
-                picketSchedule[day].forEach((name, index) => {
-                    picketsHTML += `
-                        <div class="flex justify-between items-center bg-bg-medium p-2 rounded-md mt-1 shadow-sm">
-                            <p class="font-semibold text-text-dark">${name}</p>
-                            <button onclick="deletePicket('${day}', ${index})" class="text-red-500 hover:text-red-400 text-xs">Hapus</button>
-                        </div>
-                    `;
-                });
-                dayGroup.innerHTML = picketsHTML;
-                container.appendChild(dayGroup);
-            }
-        }
-        
-        function renderNotificationManager() {
-            const targetSelect = document.getElementById('notification-target');
-            const currentVal = targetSelect.value;
-            targetSelect.innerHTML = '<option value="all">Semua Murid</option>';
-            Object.keys(users).forEach(username => {
-                targetSelect.innerHTML += `<option value="${username}">${username}</option>`;
-            });
-            targetSelect.value = currentVal;
             
-            const historyContainer = document.getElementById('notification-history');
-            historyContainer.innerHTML = '';
-            notifications.slice().reverse().forEach(n => {
-                const historyEl = document.createElement('div');
-                historyEl.className = 'bg-bg-medium p-2 rounded-md flex justify-between items-center shadow-sm';
-                historyEl.innerHTML = `
-                    <div>
-                        <p class="text-sm text-text-dark">${n.message}</p>
-                        <p class="text-xs text-gray-600">Target: ${n.target}</p>
-                    </div>
-                    <button onclick="deleteNotification(${n.id})" class="text-red-500 hover:text-red-400 text-xs">Hapus</button>
+            if (myDay) {
+                const team = piketByDay[myDay];
+                let teamHtml = `<ul class="space-y-2">`;
+                team.forEach(name => {
+                    teamHtml += `
+                        <li class="p-2 rounded ${name === userName ? 'bg-theme-yellow font-bold' : 'bg-gray-100'}">
+                            ${name} ${name === userName ? '(Anda)' : ''}
+                        </li>
+                    `;
+                });
+                teamHtml += `</ul>`;
+                container.innerHTML = `
+                    <h3 class="text-xl font-semibold mb-3">Anda piket hari: <span class="text-theme-red">${myDay}</span></h3>
+                    <p class="mb-4">Bersama dengan:</p>
+                    ${teamHtml}
                 `;
-                historyContainer.appendChild(historyEl);
+            } else {
+                container.innerHTML = `<p class="text-gray-600 text-center p-4">Anda tidak terdaftar di jadwal piket. 🌼</p>`;
+            }
+        }
+
+        async function renderUserNotifikasi() {
+            const container = document.getElementById('user-notifikasi-container');
+            container.innerHTML = '';
+            const userName = appState.currentUser.profile.username;
+            
+            const { data, error } = await db.from('notifikasi')
+                .select('*')
+                .or(`target.eq.all,target.eq.${userName}`)
+                .order('created_at', { ascending: false });
+
+            if (error) { console.error(error); return; }
+            
+            if (data && data.length > 0) {
+                data.forEach(notif => {
+                    container.innerHTML += `
+                        <div class="p-3 bg-blue-100 border-l-4 border-blue-500 rounded-lg">
+                            <p class="font-semibold ${notif.target === 'all' ? 'text-blue-800' : 'text-purple-800'}">
+                                ${notif.target === 'all' ? 'Info (Umum)' : 'Info (Pribadi)'}
+                            </p>
+                            <p class="text-gray-800">${notif.message}</p>
+                        </div>
+                    `;
+                });
+            } else {
+                container.innerHTML = `<p class="text-gray-600 text-center p-4">Tidak ada notifikasi baru. 🍃</p>`;
+            }
+        }
+
+        // --- Fungsi Render Dashboard Admin ---
+        async function renderAdminDashboard() {
+            showLoading();
+            await Promise.all([
+                renderAdminJadwalPelajaran(),
+                renderAdminJadwalPiket(),
+                renderAdminNotifikasi(),
+                populateUserDropdown()
+            ]);
+            hideLoading();
+            switchAdminTab('admin-tab-pelajaran');
+        }
+
+        async function renderAdminJadwalPelajaran() {
+            const container = document.getElementById('admin-jadwal-pelajaran-container');
+            container.innerHTML = '';
+            
+            const { data, error } = await db.from('jadwal_pelajaran').select('*').order('waktu');
+            if (error) { console.error(error); return; }
+
+            const scheduleByDay = data.reduce((acc, item) => {
+                if (!acc[item.hari]) acc[item.hari] = [];
+                acc[item.hari].push(item);
+                return acc;
+            }, {});
+
+            const days = ['Senin', 'Selasa', 'Rabu', 'Kamis', 'Jumat'];
+            days.forEach(day => {
+                const daySchedule = scheduleByDay[day] || [];
+                let dayHtml = `
+                    <div class="p-4 rounded-lg shadow-md bg-white border-l-4 border-theme-red">
+                        <h3 class="text-2xl font-semibold text-theme-red mb-3">${day}</h3>
+                        <ul class="space-y-2">
+                `;
+                daySchedule.forEach(item => {
+                    dayHtml += `
+                        <li class="flex justify-between items-center p-2 bg-gray-50 rounded">
+                            <div>
+                                <span class="font-semibold text-theme-dark">${item.mapel}</span>
+                                <span class="text-sm text-gray-600 ml-2">(${item.waktu})</span>
+                            </div>
+                            <div class="space-x-2">
+                                <button class="edit-pelajaran-btn btn btn-theme-green btn-sm py-1 px-2 text-sm" data-id="${item.id}" data-hari="${item.hari}" data-waktu="${item.waktu}" data-mapel="${item.mapel}">Edit</button>
+                                <button class="delete-pelajaran-btn btn btn-theme-red btn-sm py-1 px-2 text-sm" data-id="${item.id}">Hapus</button>
+                            </div>
+                        </li>
+                    `;
+                });
+                dayHtml += `</ul></div>`;
+                container.innerHTML += dayHtml;
+            });
+            
+            container.querySelectorAll('.edit-pelajaran-btn').forEach(btn => btn.addEventListener('click', handleEditPelajaran));
+            container.querySelectorAll('.delete-pelajaran-btn').forEach(btn => btn.addEventListener('click', handleDeletePelajaran));
+        }
+
+        async function renderAdminJadwalPiket() {
+            const container = document.getElementById('admin-jadwal-piket-container');
+            container.innerHTML = '';
+
+            const { data, error } = await db.from('jadwal_piket').select('*');
+            if (error) { console.error(error); return; }
+
+            const piketByDay = data.reduce((acc, item) => {
+                if (!acc[item.hari]) acc[item.hari] = [];
+                acc[item.hari].push(item);
+                return acc;
+            }, {});
+
+            const days = ['Senin', 'Selasa', 'Rabu', 'Kamis', 'Jumat'];
+            days.forEach(day => {
+                const dayPiket = piketByDay[day] || [];
+                let dayHtml = `
+                    <div class="p-4 rounded-lg shadow-md bg-white border-l-4 border-theme-green">
+                        <h3 class="text-2xl font-semibold text-theme-green mb-3">${day}</h3>
+                        <ul class="flex flex-wrap gap-2">
+                `;
+                dayPiket.forEach(item => {
+                    dayHtml += `
+                        <li class="flex items-center bg-theme-cream px-3 py-1 rounded-full shadow-sm">
+                            <span class="font-semibold">${item.nama}</span>
+                            <button class="delete-piket-btn text-red-600 font-bold ml-2" data-id="${item.id}">×</button>
+                        </li>
+                    `;
+                });
+                dayHtml += `</ul></div>`;
+                container.innerHTML += dayHtml;
+            });
+            
+            container.querySelectorAll('.delete-piket-btn').forEach(btn => btn.addEventListener('click', handleDeletePiket));
+        }
+        
+        async function renderAdminNotifikasi() {
+            const container = document.getElementById('admin-notifikasi-container');
+            container.innerHTML = '';
+            
+            const { data, error } = await db.from('notifikasi').select('*').order('created_at', { ascending: false });
+            if (error) { console.error(error); return; }
+
+            data.forEach(notif => {
+                container.innerHTML += `
+                    <div class="p-3 bg-gray-100 rounded-lg shadow-sm flex justify-between items-start">
+                        <div>
+                            <span class="text-sm font-semibold rounded-full px-2 py-0.5 ${notif.target === 'all' ? 'bg-blue-200 text-blue-800' : 'bg-purple-200 text-purple-800'}">
+                                ${notif.target === 'all' ? 'Semua' : notif.target}
+                            </span>
+                            <p class="text-gray-800 mt-1">${notif.message}</p>
+                        </div>
+                        <button class="delete-notifikasi-btn text-red-600 font-bold p-1" data-id="${notif.id}">×</button>
+                    </div>
+                `;
+            });
+            
+            container.querySelectorAll('.delete-notifikasi-btn').forEach(btn => btn.addEventListener('click', handleDeleteNotifikasi));
+        }
+        
+        async function populateUserDropdown() {
+            const select = document.getElementById('notifikasi-target');
+            Array.from(select.options).forEach(option => {
+                if (option.value !== 'all') option.remove();
+            });
+            
+            const { data, error } = await db.from('profiles').select('username').eq('role', 'user');
+            if (error) { console.error(error); return; }
+
+            data.forEach(profile => {
+                const option = document.createElement('option');
+                option.value = profile.username;
+                option.textContent = profile.username;
+                select.appendChild(option);
             });
         }
-        
-        // --- EVENT HANDLERS & LOGIC ---
 
-        document.getElementById('user-login-form').addEventListener('submit', function(e) {
+        // --- Fungsi Aksi & Event Handler ---
+
+        // Handler Login
+        async function handleLogin(e) {
             e.preventDefault();
-            const username = document.getElementById('user-username').value;
-            const password = document.getElementById('user-password').value;
-            const errorEl = document.getElementById('user-login-error');
-
-            if (users[username] && users[username] === password) {
-                loggedInUser = username;
-                errorEl.classList.add('hidden');
-                setBackground('dashboard');
-                showView(userDashboard);
-                renderUserDashboard();
+            showLoading();
+            const email = document.getElementById('email').value;
+            const pass = document.getElementById('password').value;
+            
+            const { data, error } = await db.auth.signInWithPassword({
+                email: email,
+                password: pass,
+            });
+            
+            if (error) {
+                document.getElementById('login-error').textContent = 'Email atau password salah!';
+                console.error('Login error:', error.message);
             } else {
-                errorEl.textContent = 'Nama Panggilan atau Kata Sandi salah.';
-                errorEl.classList.remove('hidden');
+                // onAuthStateChange akan menangani sisanya
+                document.getElementById('login-error').textContent = '';
             }
+            hideLoading();
+        }
+
+        // Handler Logout
+        async function handleLogout() {
+            showLoading();
+            await db.auth.signOut();
+            appState.currentUser = null;
+            appState.currentView = 'login';
+            await renderApp();
+            hideLoading();
+        }
+
+        // Handler Tab
+        function switchTab(e, tabClass, contentClass, activeBg) {
+            const targetId = e.target.dataset.target;
+            document.querySelectorAll(`.${tabClass}`).forEach(tab => {
+                tab.classList.remove('active', activeBg);
+                tab.classList.add('bg-gray-300', 'text-gray-700');
+            });
+            e.target.classList.add('active', activeBg);
+            e.target.classList.remove('bg-gray-300', 'text-gray-700');
+            document.querySelectorAll(`.${contentClass}`).forEach(content => content.classList.add('hidden'));
+            document.getElementById(targetId).classList.remove('hidden');
+        }
+
+        function switchUserTab(targetId) {
+            document.querySelectorAll('.user-tab').forEach(tab => {
+                tab.classList.toggle('active', tab.dataset.target === targetId);
+                tab.classList.toggle('bg-theme-green', tab.dataset.target === targetId);
+                tab.classList.toggle('bg-gray-300', tab.dataset.target !== targetId);
+                tab.classList.toggle('text-gray-700', tab.dataset.target !== targetId);
+            });
+            document.querySelectorAll('.user-tab-content').forEach(content => content.classList.toggle('hidden', content.id !== targetId));
+        }
+        
+        function switchAdminTab(targetId) {
+            document.querySelectorAll('.admin-tab').forEach(tab => {
+                tab.classList.toggle('active', tab.dataset.target === targetId);
+                tab.classList.toggle('bg-theme-red', tab.dataset.target === targetId);
+                tab.classList.toggle('bg-gray-300', tab.dataset.target !== targetId);
+                tab.classList.toggle('text-gray-700', tab.dataset.target !== targetId);
+            });
+            document.querySelectorAll('.admin-tab-content').forEach(content => content.classList.toggle('hidden', content.id !== targetId));
+        }
+        
+        document.querySelectorAll('.login-tab').forEach(tab => {
+            tab.addEventListener('click', (e) => {
+                const target = e.target.dataset.target;
+                const userTab = document.querySelector('.login-tab[data-target="user"]');
+                const adminTab = document.querySelector('.login-tab[data-target="admin"]');
+                const loginBtn = document.getElementById('login-button');
+                const emailInput = document.getElementById('email');
+
+                if (target === 'user') {
+                    userTab.style.backgroundColor = '#7A9B76'; userTab.style.opacity = 1;
+                    adminTab.style.backgroundColor = '#D96060'; adminTab.style.opacity = 0.7;
+                    loginBtn.classList.remove('btn-theme-red'); loginBtn.classList.add('btn-theme-green');
+                    emailInput.placeholder = "cth: user@kelasd.com";
+                } else {
+                    userTab.style.backgroundColor = '#7A9B76'; userTab.style.opacity = 0.7;
+                    adminTab.style.backgroundColor = '#D96060'; adminTab.style.opacity = 1;
+                    loginBtn.classList.remove('btn-theme-green'); loginBtn.classList.add('btn-theme-red');
+                    emailInput.placeholder = "cth: admin@kelasd.com";
+                }
+            });
         });
 
-        document.getElementById('admin-login-form').addEventListener('submit', function(e) {
+        // --- Handler Admin: Kelola Pelajaran ---
+        async function handleFormPelajaran(e) {
             e.preventDefault();
-            const username = document.getElementById('admin-username').value;
-            const password = document.getElementById('admin-password').value;
-            const errorEl = document.getElementById('admin-login-error');
-
-            if (username === 'admin' && password === 'admin123') {
-                loggedInUser = 'admin';
-                errorEl.classList.add('hidden');
-                setBackground('dashboard');
-                showView(adminDashboard);
-                renderAdminDashboard();
+            showLoading();
+            const id = appState.editingPelajaranId;
+            const payload = {
+                hari: document.getElementById('pelajaran-hari').value,
+                waktu: document.getElementById('pelajaran-waktu').value,
+                mapel: document.getElementById('pelajaran-mapel').value
+            };
+            
+            if (!payload.waktu || !payload.mapel) {
+                alert("Waktu dan Mata Pelajaran harus diisi!");
+                hideLoading(); return;
+            }
+            
+            let error;
+            if (id) {
+                ({ error } = await db.from('jadwal_pelajaran').update(payload).eq('id', id));
             } else {
-                errorEl.textContent = 'Nama Pengelola atau Kata Sandi salah.';
-                errorEl.classList.remove('hidden');
+                ({ error } = await db.from('jadwal_pelajaran').insert(payload));
             }
-        });
-        
-        function logout() {
-            loggedInUser = null;
-            document.getElementById('user-login-form').reset();
-            document.getElementById('admin-login-form').reset();
-            document.getElementById('user-login-error').classList.add('hidden');
-            document.getElementById('admin-login-error').classList.add('hidden');
-            showInitialView();
+            
+            if (error) console.error(error);
+            await renderAdminJadwalPelajaran();
+            resetFormPelajaran();
+            hideLoading();
         }
 
-        document.getElementById('user-logout-btn').addEventListener('click', logout);
-        document.getElementById('admin-logout-btn').addEventListener('click', logout);
-        
-        document.getElementById('add-lesson-form').addEventListener('submit', function(e) {
-            e.preventDefault();
-            const day = document.getElementById('add-lesson-day').value;
-            const name = document.getElementById('add-lesson-name').value;
-            const time = document.getElementById('add-lesson-time').value;
-            classSchedule[day].push({ id: Date.now(), subject: name, time: time }); // Tambah id unik
-            renderAdminClassSchedule();
-            this.reset();
-        });
+        function handleEditPelajaran(e) {
+            const btn = e.target;
+            appState.editingPelajaranId = btn.dataset.id;
+            document.getElementById('pelajaran-edit-id').value = btn.dataset.id;
+            document.getElementById('pelajaran-hari').value = btn.dataset.hari;
+            document.getElementById('pelajaran-waktu').value = btn.dataset.waktu;
+            document.getElementById('pelajaran-mapel').value = btn.dataset.mapel;
+        }
 
-        window.deleteLesson = function(day, index) {
-            classSchedule[day].splice(index, 1);
-            renderAdminClassSchedule();
+        async function handleDeletePelajaran(e) {
+            showLoading();
+            const id = e.target.dataset.id;
+            await db.from('jadwal_pelajaran').delete().eq('id', id);
+            await renderAdminJadwalPelajaran();
+            hideLoading();
         }
         
-        document.getElementById('add-picket-form').addEventListener('submit', function(e) {
+        function resetFormPelajaran() {
+            appState.editingPelajaranId = null;
+            document.getElementById('form-edit-pelajaran').reset();
+            document.getElementById('pelajaran-edit-id').value = '';
+        }
+
+        // --- Handler Admin: Kelola Piket ---
+        async function handleFormPiket(e) {
             e.preventDefault();
-            const day = document.getElementById('add-picket-day').value;
-            const name = document.getElementById('add-picket-name').value;
-            // Tambahkan user baru jika belum ada
-            if (users[name] === undefined) { 
-                users[name] = 'user123';
+            showLoading();
+            const payload = {
+                hari: document.getElementById('piket-hari').value,
+                nama: document.getElementById('piket-nama').value
+            };
+            
+            if (!payload.nama) { hideLoading(); return; }
+            
+            const { error }_ = await db.from('jadwal_piket').insert(payload);
+            if (error) console.error(error);
+
+            await renderAdminJadwalPiket();
+            document.getElementById('piket-nama').value = '';
+            hideLoading();
+        }
+
+        async function handleDeletePiket(e) {
+            showLoading();
+            const id = e.target.dataset.id;
+            await db.from('jadwal_piket').delete().eq('id', id);
+            await renderAdminJadwalPiket();
+            hideLoading();
+        }
+
+        // --- Handler Admin: Kelola Notifikasi ---
+        async function handleFormNotifikasi(e) {
+            e.preventDefault();
+            showLoading();
+            const payload = {
+                target: document.getElementById('notifikasi-target').value,
+                message: document.getElementById('notifikasi-pesan').value
+            };
+            
+            if (!payload.message) { hideLoading(); return; }
+            
+            await db.from('notifikasi').insert(payload);
+            await renderAdminNotifikasi();
+            document.getElementById('notifikasi-pesan').value = '';
+            hideLoading();
+        }
+        
+        async function handleDeleteNotifikasi(e) {
+            showLoading();
+            const id = e.target.dataset.id;
+            await db.from('notifikasi').delete().eq('id', id);
+            await renderAdminNotifikasi();
+            hideLoading();
+        }
+
+        // --- Inisialisasi Aplikasi ---
+        async function initializeApp() {
+            // Listener status otentikasi
+            db.auth.onAuthStateChange(async (event, session) => {
+                showLoading();
+                if (session) {
+                    // Pengguna berhasil login
+                    const { data: profile, error } = await db.from('profiles')
+                        .select('*')
+                        .eq('id', session.user.id)
+                        .single();
+                    
+                    if (profile) {
+                        appState.currentUser = { session, profile };
+                        appState.currentView = profile.role;
+                    } else {
+                        // Seharusnya tidak terjadi jika trigger disetup
+                        console.error("Profile tidak ditemukan!");
+                        await db.auth.signOut();
+                        appState.currentView = 'login';
+                    }
+                } else {
+                    // Pengguna logout
+                    appState.currentUser = null;
+                    appState.currentView = 'login';
+                }
+                await renderApp();
+                hideLoading();
+            });
+
+            // Cek sesi yang ada saat load
+            const { data: { session } } = await db.auth.getSession();
+            if (!session) {
+                // Jika tidak ada sesi, tampilkan login
+                appState.currentView = 'login';
+                await renderApp();
             }
-            picketSchedule[day].push(name);
-            renderAdminPicketSchedule();
-            renderNotificationManager(); // Update daftar target notifikasi
-            this.reset();
-        });
-
-        window.deletePicket = function(day, index) {
-            picketSchedule[day].splice(index, 1);
-            renderAdminPicketSchedule();
+            // Jika ADA sesi, onAuthStateChange akan otomatis terpicu dan menangani render
         }
-
-        document.getElementById('send-notification-form').addEventListener('submit', function(e){
-            e.preventDefault();
-            const target = document.getElementById('notification-target').value;
-            const message = document.getElementById('notification-message').value;
-            notifications.push({ id: Date.now(), target, message });
-            renderNotificationManager();
-            this.reset();
-        });
         
-        window.deleteNotification = function(id) {
-            notifications = notifications.filter(n => n.id !== id);
-            renderNotificationManager();
-        }
+        document.addEventListener('DOMContentLoaded', () => {
+            // Event Listeners Global
+            document.getElementById('login-form').addEventListener('submit', handleLogin);
+            document.getElementById('user-logout-btn').addEventListener('click', handleLogout);
+            document.getElementById('admin-logout-btn').addEventListener('click', handleLogout);
 
-        // --- INITIALIZATION ---
-        showInitialView();
-
+            document.querySelectorAll('.user-tab').forEach(tab => tab.addEventListener('click', (e) => switchTab(e, 'user-tab', 'user-tab-content', 'bg-theme-green')));
+            document.querySelectorAll('.admin-tab').forEach(tab => tab.addEventListener('click', (e) => switchTab(e, 'admin-tab', 'admin-tab-content', 'bg-theme-red')));
+            
+            document.getElementById('form-edit-pelajaran').addEventListener('submit', handleFormPelajaran);
+            document.getElementById('batal-edit-pelajaran').addEventListener('click', resetFormPelajaran);
+            document.getElementById('form-edit-piket').addEventListener('submit', handleFormPiket);
+            document.getElementById('form-kirim-notifikasi').addEventListener('submit', handleFormNotifikasi);
+            
+            initializeApp();
+        });
     </script>
 </body>
 </html>
