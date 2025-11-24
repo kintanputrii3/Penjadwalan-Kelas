@@ -93,9 +93,9 @@
                 <!-- Form Login -->
                 <form id="login-form">
                     <div class="mb-4">
-                        <!-- DIUBAH: Label dari Username menjadi Email -->
-                        <label for="email" class="block text-sm font-semibold mb-2">Email:</label>
-                        <input type="email" id="email" class="w-full px-3 py-2 border rounded-lg shadow-sm focus:outline-none focus:ring-2" required>
+                        <!-- DIUBAH: Label menjadi Username -->
+                        <label for="username" class="block text-sm font-semibold mb-2">Username:</label>
+                        <input type="text" id="username" class="w-full px-3 py-2 border rounded-lg shadow-sm focus:outline-none focus:ring-2" placeholder="" required>
                     </div>
                     <div class="mb-6">
                         <label for="password" class="block text-sm font-semibold mb-2">Password:</label>
@@ -225,8 +225,8 @@
     <script type="module">
         // --- KONEKSI SUPABASE ---
         // GANTI DENGAN URL DAN KUNCI ANON DARI PROYEK SUPABASE ANDA (DARI LANGKAH 2 PANDUAN)
-        const SUPABASE_URL = 'https://URL_PROYEK_ANDA.supabase.co';
-        const SUPABASE_KEY = 'KUNCI_ANON_PUBLIK_ANDA';
+        const SUPABASE_URL = 'https://mtmrfyezvffxhznnrpbn.supabase.co';
+        const SUPABASE_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Im10bXJmeWV6dmZmeGh6bm5ycGJuIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NjMzMzc5NzAsImV4cCI6MjA3ODkxMzk3MH0.CQ2137n38m_RcyN35L4bKh_m-EbX9qZf-fJ1zUp6ig8';
 
         const { createClient } = supabase;
         const db = createClient(SUPABASE_URL, SUPABASE_KEY);
@@ -234,7 +234,8 @@
         // Cek koneksi (opsional)
         if (!db) {
             console.error("Koneksi Supabase gagal. Periksa URL dan Kunci.");
-            alert("Koneksi ke database gagal!");
+            // Tidak menggunakan alert() karena diblokir.
+            // alert("Koneksi ke database gagal!"); 
         }
 
         // Objek state aplikasi
@@ -264,9 +265,12 @@
             if (appState.currentView === 'login') {
                 loginScreen.classList.remove('hidden');
                 document.getElementById('login-error').textContent = '';
-                document.getElementById('email').value = '';
-                document.getElementById('password').value = '';
-                document.querySelector('.login-tab[data-target="user"]').click();
+                // Hapus nilai input setelah render
+                if (document.getElementById('username')) document.getElementById('username').value = '';
+                if (document.getElementById('password')) document.getElementById('password').value = '';
+                // Coba klik tab user jika ada
+                const userTab = document.querySelector('.login-tab[data-target="user"]');
+                if (userTab) userTab.click();
             } else if (appState.currentView === 'user') {
                 userDashboard.classList.remove('hidden');
                 await renderUserDashboard();
@@ -330,13 +334,18 @@
 
         async function renderUserJadwalPiket() {
             const container = document.getElementById('user-jadwal-piket-container');
-            container.innerHTML = '';
+            container.innerHTML = '<p class="text-gray-500">Memuat data piket...</p>';
+            
+            // Ambil username dari profil pengguna yang sedang login
             const userName = appState.currentUser.profile.username;
             
-            const { data, error } = await db.from('jadwal_piket').select('*');
-            if (error) { console.error(error); return; }
+            // DEBUG LOG: Cek siapa yang sedang login menurut sistem
+            console.log("Sedang login sebagai:", userName);
 
-            // Kelompokkan berdasarkan hari
+            const { data, error } = await db.from('jadwal_piket').select('*');
+            if (error) { console.error(error); container.innerHTML = '<p class="text-red-500">Gagal memuat data.</p>'; return; }
+
+            // Kelompokkan data berdasarkan hari
             const piketByDay = data.reduce((acc, item) => {
                 if (!acc[item.hari]) acc[item.hari] = [];
                 acc[item.hari].push(item.nama);
@@ -344,8 +353,16 @@
             }, {});
 
             let myDay = null;
+            // Normalisasi username ke huruf kecil untuk pencarian yang lebih fleksibel
+            const lowerUserName = userName.toLowerCase();
+
+            // Cari hari dimana user bertugas
             for (const day in piketByDay) {
-                if (piketByDay[day].includes(userName)) {
+                // Cek apakah ada nama di hari tersebut yang cocok (case-insensitive)
+                const teamLower = piketByDay[day].map(name => name.toLowerCase());
+                
+                // LOGIKA UTAMA: Mencocokkan nama
+                if (teamLower.includes(lowerUserName)) {
                     myDay = day;
                     break;
                 }
@@ -355,20 +372,37 @@
                 const team = piketByDay[myDay];
                 let teamHtml = `<ul class="space-y-2">`;
                 team.forEach(name => {
+                    // Highlight nama user sendiri (case-insensitive)
+                    const isMe = name.toLowerCase() === lowerUserName;
                     teamHtml += `
-                        <li class="p-2 rounded ${name === userName ? 'bg-theme-yellow font-bold' : 'bg-gray-100'}">
-                            ${name} ${name === userName ? '(Anda)' : ''}
+                        <li class="p-2 rounded ${isMe ? 'bg-theme-yellow font-bold border-2 border-theme-red' : 'bg-gray-100'}">
+                            ${name} ${isMe ? '(Anda)' : ''}
                         </li>
                     `;
                 });
                 teamHtml += `</ul>`;
                 container.innerHTML = `
-                    <h3 class="text-xl font-semibold mb-3">Anda piket hari: <span class="text-theme-red">${myDay}</span></h3>
-                    <p class="mb-4">Bersama dengan:</p>
-                    ${teamHtml}
+                    <div class="p-4 bg-white rounded-lg shadow border-l-4 border-theme-green">
+                        <h3 class="text-xl font-semibold mb-3">Jadwal Piket Anda: <span class="text-theme-red font-bold text-2xl block mt-1">${myDay}</span></h3>
+                        <p class="mb-2 text-sm text-gray-600">Tim Piket:</p>
+                        ${teamHtml}
+                    </div>
                 `;
             } else {
-                container.innerHTML = `<p class="text-gray-600 text-center p-4">Anda tidak terdaftar di jadwal piket. 🌼</p>`;
+                // TAMPILAN JIKA TIDAK DITEMUKAN (PENTING UNTUK DIAGNOSA)
+                let message = "Anda tidak terdaftar di jadwal piket.";
+                
+                // Cek apakah username terlihat seperti email (mengandung @)
+                if (userName.includes('@')) {
+                   message += `<br><br><span class="text-red-600 font-bold text-sm bg-red-100 p-2 rounded block">
+                   ⚠️ PERHATIAN ADMIN: <br>
+                   Nama profil Anda saat ini adalah email: "<u>${userName}</u>".<br>
+                   Sedangkan di jadwal piket tertulis Nama (contoh: "Adam").<br>
+                   Mohon Admin ubah 'username' di tabel 'profiles' Supabase agar sesuai dengan nama di jadwal.
+                   </span>`;
+                }
+
+                container.innerHTML = `<p class="text-gray-600 text-center p-4">${message} 🌼</p>`;
             }
         }
 
@@ -539,8 +573,34 @@
         async function handleLogin(e) {
             e.preventDefault();
             showLoading();
-            const email = document.getElementById('email').value;
+            
+            // GANTI LOGIC: Ambil Username, lalu buat Email Buatan
+            const usernameInput = document.getElementById('username').value.trim(); // Ambil input username
             const pass = document.getElementById('password').value;
+            const errorDisplay = document.getElementById('login-error');
+            errorDisplay.textContent = ''; 
+
+            // Periksa input dasar
+            if (!usernameInput || !pass) {
+                errorDisplay.textContent = 'Harap isi Username dan Password.';
+                hideLoading(); 
+                return;
+            }
+
+            if (pass.length < 6) {
+                errorDisplay.textContent = 'Password minimal 6 karakter.';
+                hideLoading(); 
+                return;
+            }
+            
+            // KONSTRUKSI EMAIL OTOMATIS
+            // Admin -> admin@kelasd.com
+            // User -> user@kelasd.com
+            // Nabil -> nabil@kelasd.com
+            const email = `${usernameInput.toLowerCase().replace(/\s+/g, '')}@kelasd.com`;
+
+            // DEBUG LOG
+            console.log(`Login sebagai: ${usernameInput} -> Email Sistem: ${email}`);
             
             const { data, error } = await db.auth.signInWithPassword({
                 email: email,
@@ -548,11 +608,14 @@
             });
             
             if (error) {
-                document.getElementById('login-error').textContent = 'Email atau password salah!';
+                let errorMessage = error.message;
+                if (errorMessage.includes('Invalid login credentials')) {
+                    errorMessage = 'Username atau password salah!';
+                }
+                errorDisplay.textContent = errorMessage;
                 console.error('Login error:', error.message);
             } else {
-                // onAuthStateChange akan menangani sisanya
-                document.getElementById('login-error').textContent = '';
+                errorDisplay.textContent = '';
             }
             hideLoading();
         }
@@ -561,9 +624,7 @@
         async function handleLogout() {
             showLoading();
             await db.auth.signOut();
-            appState.currentUser = null;
-            appState.currentView = 'login';
-            await renderApp();
+            // onAuthStateChange akan menangani pembersihan state
             hideLoading();
         }
 
@@ -606,18 +667,18 @@
                 const userTab = document.querySelector('.login-tab[data-target="user"]');
                 const adminTab = document.querySelector('.login-tab[data-target="admin"]');
                 const loginBtn = document.getElementById('login-button');
-                const emailInput = document.getElementById('email');
+                const usernameInput = document.getElementById('username');
 
                 if (target === 'user') {
                     userTab.style.backgroundColor = '#7A9B76'; userTab.style.opacity = 1;
                     adminTab.style.backgroundColor = '#D96060'; adminTab.style.opacity = 0.7;
                     loginBtn.classList.remove('btn-theme-red'); loginBtn.classList.add('btn-theme-green');
-                    emailInput.placeholder = "cth: user@kelasd.com";
+                    usernameInput.placeholder = "";
                 } else {
                     userTab.style.backgroundColor = '#7A9B76'; userTab.style.opacity = 0.7;
                     adminTab.style.backgroundColor = '#D96060'; adminTab.style.opacity = 1;
                     loginBtn.classList.remove('btn-theme-green'); loginBtn.classList.add('btn-theme-red');
-                    emailInput.placeholder = "cth: admin@kelasd.com";
+                    usernameInput.placeholder = "";
                 }
             });
         });
@@ -634,7 +695,8 @@
             };
             
             if (!payload.waktu || !payload.mapel) {
-                alert("Waktu dan Mata Pelajaran harus diisi!");
+                // Mengganti alert dengan console log
+                console.error("Waktu dan Mata Pelajaran harus diisi!");
                 hideLoading(); return;
             }
             
@@ -685,7 +747,7 @@
             
             if (!payload.nama) { hideLoading(); return; }
             
-            const { error }_ = await db.from('jadwal_piket').insert(payload);
+            const { error } = await db.from('jadwal_piket').insert(payload);
             if (error) console.error(error);
 
             await renderAdminJadwalPiket();
@@ -728,11 +790,19 @@
 
         // --- Inisialisasi Aplikasi ---
         async function initializeApp() {
-            // Listener status otentikasi
+            // Tampilkan loading sebelum proses otentikasi dimulai
+            showLoading(); 
+            
+            // Listener status otentikasi: Ini adalah satu-satunya tempat yang menentukan state tampilan
+            // Supabase client akan otomatis memeriksa sesi saat listener ini pertama kali dipanggil
             db.auth.onAuthStateChange(async (event, session) => {
-                showLoading();
+                
+                // Reset state
+                appState.currentUser = null;
+                appState.currentView = 'login';
+
                 if (session) {
-                    // Pengguna berhasil login
+                    // Pengguna berhasil login/memiliki sesi aktif
                     const { data: profile, error } = await db.from('profiles')
                         .select('*')
                         .eq('id', session.user.id)
@@ -742,28 +812,16 @@
                         appState.currentUser = { session, profile };
                         appState.currentView = profile.role;
                     } else {
-                        // Seharusnya tidak terjadi jika trigger disetup
-                        console.error("Profile tidak ditemukan!");
+                        // Jika profil tidak ditemukan (error setup database), paksa logout
+                        console.error("Profile tidak ditemukan. Pastikan Langkah 3-6 di panduan sudah dilakukan!");
                         await db.auth.signOut();
-                        appState.currentView = 'login';
                     }
-                } else {
-                    // Pengguna logout
-                    appState.currentUser = null;
-                    appState.currentView = 'login';
-                }
+                } 
+                // Jika session null, currentView tetap 'login' (sudah diatur di awal listener)
+                
                 await renderApp();
-                hideLoading();
+                hideLoading(); // Sembunyikan loading setelah tampilan selesai dirender
             });
-
-            // Cek sesi yang ada saat load
-            const { data: { session } } = await db.auth.getSession();
-            if (!session) {
-                // Jika tidak ada sesi, tampilkan login
-                appState.currentView = 'login';
-                await renderApp();
-            }
-            // Jika ADA sesi, onAuthStateChange akan otomatis terpicu dan menangani render
         }
         
         document.addEventListener('DOMContentLoaded', () => {
